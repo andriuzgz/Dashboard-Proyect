@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+html {
+    background-color: rgb(179, 178, 180);
+}
+
+.login-container {
+    background-color: rgb(118, 116, 123);
+    width: 30rem;
+    border-radius: 20px;
+    text-align: center;
+    margin: auto;
+}
+
+.login-header {
+    margin-top: 20rem;
+    padding: 1rem;
+    background-color: rgb(84, 81, 91);
+    border-radius: 20px 20px 0 0;
+}
+
+.login-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+.login-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    color: rgb(238, 236, 242);
+}
+
+.login-form {
+    padding: 1rem;
+}
+
+.login-input {
+    width: 16rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: none;
+}
+
+.login-button {
+    background-color: rgb(84, 81, 91);
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    transition: linear 0.2s;
+}
+
+.login-button:hover {
+    background-color: rgb(138, 136, 145);
+    color: rgb(51, 50, 55);
+}
+
+.login-register {
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+}
+
+.register-link {
+    text-decoration: none;
+    text-shadow: none;
+    text-decoration-style: none;
+    color: rgb(44, 43, 46);
+}

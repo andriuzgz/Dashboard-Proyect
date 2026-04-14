@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+html {
+    background-color: rgb(179, 178, 180);
+}
+
+.register-container {
+    background-color: rgb(118, 116, 123);
+    width: 30rem;
+    border-radius: 20px;
+    text-align: center;
+    margin: auto;
+}
+
+.register-header {
+    margin-top: 16rem;
+    padding: 1rem;
+    background-color: rgb(84, 81, 91);
+    border-radius: 20px 20px 0 0;
+}
+
+.register-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+.register-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    color: rgb(238, 236, 242);
+}
+
+.register-form {
+    padding: 1rem;
+}
+
+.register-input {
+    width: 16rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: none;
+}
+
+.register-selection {
+    width: 17rem;
+    margin: 0.5rem;
+    padding: 0.4rem;
+    border-radius: 10px;
+    border: none;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: rgb(51, 50, 55);
+}
+
+.option-selection {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: rgb(51, 50, 55);
+}
+
+.register-button {
+    background-color: rgb(84, 81, 91);
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    transition: linear 0.2s;
+}
+
+.register-button:hover {
+    background-color: rgb(138, 136, 145);
+    color: rgb(51, 50, 55);
+}
+
+.register-register {
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+}
+
+.register-link {
+    text-decoration: none;
+    text-shadow: none;
+    text-decoration-style: none;
+    color: rgb(44, 43, 46);
+}

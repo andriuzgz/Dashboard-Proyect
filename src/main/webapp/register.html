@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="register.css">
+    <title>Sign Up</title>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <a class="register-text">Crear Nueva Cuenta</a>
+        </div>
+        <div class="register-form">
+            <form class="register-form-container" action="/register" method="post">
+                <label class="register-label" for="username">Nombre Usuario:</label><br>
+                <input class="register-input" type="text" id="username" name="username" required><br>
+
+                <label class="register-label" for="selection">Asignar Rol del Usuario:</label><br>
+                <select class="register-selection" id="selection" name="selection" required>
+                    <option class="option-selection" value="default">Seleccionar Rol</option>
+                    <option class="option-selection" value="admin">Administrador</option>
+                    <option class="option-selection" value="counter">Contable</option>
+                    <option class="option-selection" value="boss_department">Jefe de Departamento</option>
+                </select><br>
+
+                <label class="register-label" for="department">Asignar Departamento:</label><br> 
+                <select class="register-selection" id="department" name="department" required>
+                    <option class="option-selection" value="default">Seleccionar Departamento</option>
+                    <option class="option-selection" value="ventas">Ventas</option>
+                    <option class="option-selection" value="compras">Compras</option>
+                    <option class="option-selection" value="logistica">Logística</option>
+                <select><br>
+
+                <label class="register-label" for="password">Establecer Contraseña:</label><br>
+                <input class="register-input" type="password" id="password" name="password" required><br>
+                <label class="register-label" for="confirm_password">Confirmar Contraseña:</label><br>
+                <input class="register-input" type="password" id="confirm_password" name="confirm_password" required><br><br>
+
+                <button class="register-button" type="submit">Registrar</button>
+                <p class="register-register">¿Tiene cuenta?<a href="login.html" class="register-link"> Iniciar Sesion</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
