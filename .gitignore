@@ -1,1 +1,28 @@
 /build/
+
+# Config sensible
+*.properties
+.env
+
+# Java
+*.class
+/target/
+/bin/
+/build/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Tomcat
+.metadata/
+Servers/
+
+# Logs
+*.log
+*.tmp
+
+# Sistema
+.DS_Store
+Thumbs.db
