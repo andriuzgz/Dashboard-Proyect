@@ -15,43 +15,44 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/login")
 public class Login extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String user = request.getParameter("username");
         String pass = request.getParameter("password");
 
-        try {
-            Connection con = Conexion.getConnection();
+        String sql = "SELECT * FROM usuario WHERE nombre=? AND password=?";
 
-            String sql = "SELECT * FROM usuario WHERE nombre=? AND password=?";
-            PreparedStatement ps = con.prepareStatement(sql);
+        // 💥 TRY-WITH-RESOURCES (CIERRA TODO AUTOMÁTICO)
+        try (Connection con = Conexion.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, user);
             ps.setString(2, pass);
 
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            if (rs.next()) {
+                if (rs.next()) {
 
-            	HttpSession session = request.getSession();
-            	session.setAttribute("nombre", rs.getString("nombre"));
-            	//session.setAttribute("rol", rs.getString("rol"));
+                    HttpSession session = request.getSession();
+                    session.setAttribute("nombre", rs.getString("nombre"));
+                    session.setAttribute("rol", rs.getString("rol"));
 
-            	response.sendRedirect("jsp/Inicio.jsp");
-                
-                // Debug
-                System.out.println("User: " + user);
-                //System.out.println("Pass: " + pass);
+                    response.sendRedirect(request.getContextPath() + "/jsp/inicio.jsp");
 
-            } else {
-            	response.sendRedirect(request.getContextPath() + "/jsp/inicio.jsp");
+                    System.out.println("User: " + user);
+                    System.out.println("Pass: " + pass);
+
+                } else {
+                    response.sendRedirect("login.html?error=true");
+                }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect("login.html?error=sql");
         }
     }
 }

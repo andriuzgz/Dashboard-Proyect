@@ -52,7 +52,14 @@ body {
     font-weight: bold;
 }
 
-.button:hover {
+.button.active {
+    background-color: rgb(255, 224, 224);
+    color: rgb(255, 116, 116);
+    border: 2px solid rgb(255, 224, 224);
+    cursor: pointer;
+}
+
+.button:hover:not(.active) {
     background-color: rgb(255, 224, 224);
     color: rgb(255, 116, 116);
     border: 2px solid rgb(255, 224, 224);
@@ -61,6 +68,8 @@ body {
 }
 
 .salir {
+	width: 100%;
+    box-sizing: border-box;
     background-color: rgb(255, 0, 0);
     color: rgb(255, 255, 255);
     border: 2px solid rgb(255, 0, 0);
@@ -122,6 +131,16 @@ body {
     border-radius: 20px 20px 0px 0px;
 }
 
+.content-perfil {
+	font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    padding: 1rem;
+
+    background-color: rgb(255, 0, 0);
+}
+
 .content-about-item {
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
@@ -143,4 +162,71 @@ body {
 .grid-content-departamento {
     display: grid;
     grid-template-columns: 1fr;
+}
+
+.content-about-item {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.table-add {
+	width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+/* HEADER */
+.th-table {
+    padding: 0.6rem;
+    text-align: center;
+    background-color: rgb(255, 60, 60); /* rojo fuerte */
+    color: white;
+}
+
+/* FILAS */
+.tr-table {
+    text-align: center;
+    border-bottom: 1px solid rgb(255, 120, 120); /* línea roja fina */
+    transition: background 0.2s ease;
+}
+
+/* CELDAS */
+.td-table {
+    padding: 0.5rem;
+    border: none;
+}
+
+/* HOVER */
+tbody .tr-table:hover {
+    background-color: rgb(255, 224, 224); /* rojo más oscuro al pasar */
+}
+
+.button-action {
+	border-radius: 10px;
+	font-size: 1.5rem;
+	border: none;
+	background-color: rgb(232, 225, 225);
+	cursor: pointer;
+	
+	transition: linear 0.3s;
+}
+
+.button-action:hover {
+	background-color: rgb(255, 115, 115);
+}
+
+.delete {
+	background-color: rgb(242, 48, 48);
+}
+
+.delete:hover {
+	background-color: rgb(130, 0, 0);
 }
