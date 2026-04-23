@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,7 +26,6 @@ public class Login extends HttpServlet {
 
         String sql = "SELECT * FROM usuario WHERE nombre=? AND password=?";
 
-        // 💥 TRY-WITH-RESOURCES (CIERRA TODO AUTOMÁTICO)
         try (Connection con = Conexion.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -36,23 +36,35 @@ public class Login extends HttpServlet {
 
                 if (rs.next()) {
 
+                    // ✅ LOGIN OK
                     HttpSession session = request.getSession();
                     session.setAttribute("nombre", rs.getString("nombre"));
                     session.setAttribute("rol", rs.getString("rol"));
 
+                    // 🔥 AUDITORÍA (SIN PASSWORD)
+                    System.out.println("[" + LocalDateTime.now() + "] [INFO] Login: Usuario '" 
+                            + user + "' ha iniciado sesión correctamente");
+
                     response.sendRedirect(request.getContextPath() + "/jsp/inicio.jsp");
 
-                    System.out.println("User: " + user);
-                    System.out.println("Pass: " + pass);
-
                 } else {
-                    response.sendRedirect("login.html?error=true");
+
+                    // ⚠️ LOGIN FAIL
+                    System.out.println("[" + LocalDateTime.now() + "] [WARN] Login FAILED: Usuario '" 
+                            + user + "' ha fallado el login");
+
+                    response.sendRedirect(request.getContextPath() + "/login.jsp?error=1");
                 }
             }
 
         } catch (Exception e) {
+
+            // 💀 ERROR SQL
+            System.out.println("[" + LocalDateTime.now() + "] [ERROR] Login SQL ERROR para usuario '" 
+                    + user + "'");
             e.printStackTrace();
-            response.sendRedirect("login.html?error=sql");
+
+            response.sendRedirect(request.getContextPath() + "/login.jsp?error=sql");
         }
     }
 }

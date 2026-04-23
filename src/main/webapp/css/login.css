@@ -1,21 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 html {
-    background-color: rgb(179, 178, 180);
+    background-color: rgb(255, 231, 231);
 }
 
 .login-container {
-    background-color: rgb(118, 116, 123);
+    background-color: rgb(255, 255, 255);
     width: 30rem;
     border-radius: 20px;
     text-align: center;
     margin: auto;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .login-header {
     margin-top: 20rem;
     padding: 1rem;
-    background-color: rgb(84, 81, 91);
+    background-color: rgb(255, 30, 30);
     border-radius: 20px 20px 0 0;
 }
 
@@ -23,56 +24,67 @@ html {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.5rem;
     font-weight: bold;
-    color: rgb(255, 255, 255);
+    color: white;
 }
 
 .login-label {
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
     font-weight: bold;
-    color: rgb(238, 236, 242);
+    color: rgb(120, 120, 120);
 }
 
 .login-form {
-    padding: 1rem;
+    padding: 1.5rem;
 }
 
 .login-input {
     width: 16rem;
     margin: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.6rem;
     border-radius: 10px;
-    border: none;
+    border: 1px solid rgb(220, 220, 220);
+    transition: 0.2s;
+    
+    caret-color: rgb(255, 30, 30);
+}
+
+.login-input:focus {
+    outline: none;
+    border: 1px solid rgb(255, 60, 60);
+    box-shadow: 0 0 5px rgba(255, 60, 60, 0.3);
 }
 
 .login-button {
-    background-color: rgb(84, 81, 91);
-    color: rgb(255, 255, 255);
-    border: none;
-    padding: 1rem;
+    background-color: rgb(255, 30, 30);
+    color: white;
+    padding: 0.8rem 1.2rem;
+    border: 2px solid rgb(255, 30, 30);
     border-radius: 10px;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
-    transition: linear 0.2s;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .login-button:hover {
-    background-color: rgb(138, 136, 145);
-    color: rgb(51, 50, 55);
+    background-color: rgb(255, 224, 224);
+    border: 2px solid rgb(255, 224, 224);
+    color: rgb(255, 0, 0);
 }
 
 .login-register {
     background-color: transparent;
-    color: rgb(255, 255, 255);
-
+    color: rgb(255, 30, 30);
     font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
 }
 
-.register-link {
-    text-decoration: none;
-    text-shadow: none;
-    text-decoration-style: none;
-    color: rgb(44, 43, 46);
+.login-error {
+    color: red;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    margin-bottom: 10px;
 }

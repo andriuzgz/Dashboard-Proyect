@@ -11,6 +11,11 @@ body {
     height: 100%;
 }
 
+.logo img {
+    width: 160px;   /* ajusta a tu gusto */
+    height: auto;
+}
+
 .interface {
     display: grid;
     grid-template-columns: 0fr 100fr;
@@ -24,7 +29,7 @@ body {
     flex-direction: column;
     justify-self: left;
     align-items: left;
-    height: 98.2vh;
+    height: 100vh;
     gap: 0.75rem;
 }
 
@@ -108,7 +113,7 @@ body {
 
 .grid-content {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
 }
 
 .content {
@@ -147,6 +152,11 @@ body {
     font-weight: bold;
     color: rgb(0, 0, 0);
     padding: 1rem;
+}
+
+.grid-content-alerts {
+    display: grid;
+    grid-template-columns: 1fr;
 }
 
 .grid-content-perfil {
@@ -229,4 +239,20 @@ tbody .tr-table:hover {
 
 .delete:hover {
 	background-color: rgb(130, 0, 0);
+}
+
+.user-search {
+    width: 100%;
+    margin: 0.5rem;
+    padding: 0.6rem;
+    border-radius: 10px;
+    border: 1px solid rgb(220, 220, 220);
+    transition: 0.2s;
+    outline: none;
+    
+    caret-color: rgb(255, 30, 30);
+}
+
+.user-search:focus {
+    border: 1px solid rgb(255, 60, 60);
 }
