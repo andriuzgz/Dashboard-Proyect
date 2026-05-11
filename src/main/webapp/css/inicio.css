@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import
+	url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap')
+	;
 
 /* =========================================================
 1. RESET / BASE
@@ -30,8 +32,8 @@ body {
 	overflow: hidden;
 }
 
-.interface > * {
-	min-height: 0; /* 🔥 evita bugs de scroll */
+.interface>* {
+	min-height: 0;
 }
 
 .div-container {
@@ -49,7 +51,6 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 0.75rem;
-
 	height: 100vh;
 	position: sticky;
 	top: 0;
@@ -124,8 +125,6 @@ body {
 	color: white;
 	padding: 1rem;
 	background-color: red;
-
-	/* 🔥 CLAVE */
 	position: sticky;
 	top: 0;
 	z-index: 10;
@@ -147,9 +146,8 @@ body {
 	gap: 0.75rem;
 }
 
-.grid-content-alerts,
-.grid-content-usuario,
-.grid-content-departamento {
+.grid-content-alerts, .grid-content-usuario, .grid-content-departamento,
+	.grid-content-permisos {
 	display: grid;
 	grid-template-columns: 1fr;
 	margin: 1rem;
@@ -159,6 +157,15 @@ body {
 .grid-content-perfil {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
+	margin: 1rem;
+	gap: 0.75rem;
+}
+
+.grid-content-dept {
+	display: grid;
+	grid-template-columns: 35% 65%;
+	grid-template-rows: auto auto;
+	align-items: start;
 	margin: 1rem;
 	gap: 0.75rem;
 }
@@ -182,6 +189,14 @@ body {
 	border-radius: 20px 20px 0 0;
 }
 
+.content-item-flat {
+	font-size: 1rem;
+	font-weight: bold;
+	color: white;
+	padding: 1rem;
+	background-color: red;
+}
+
 .content-about-item {
 	font-size: 1rem;
 	font-weight: bold;
@@ -192,8 +207,7 @@ body {
 /* =========================================================
 8. TABLAS
 ========================================================= */
-.table,
-.table-add {
+.table, .table-add {
 	width: 100%;
 	border-collapse: collapse;
 	margin-bottom: 1rem;
@@ -224,7 +238,6 @@ tbody .tr-table:hover {
 /* =========================================================
 8.2. TABLAS - ESTADOS 
 ========================================================= */
-
 .verde {
 	color: rgb(64, 199, 22);
 	font-weight: bold;
@@ -262,6 +275,46 @@ tbody .tr-table:hover {
 .nev {
 	color: rgb(235, 63, 63);
 	font-weight: bold;
+}
+
+/* =========================================================
+8.3. LABELS
+========================================================= */
+.select {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 1rem;
+	background-color: rgb(237, 228, 228);
+	border-radius: 10px;
+	padding: 0.5rem;
+	border: rgb(237, 228, 228);
+}
+
+.option-select {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 1rem;
+}
+
+select option:checked {
+	background-color: rgb(219, 204, 204);
+}
+
+.guardar {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 1rem;
+	padding: 0.4rem;
+	border-radius: 10px;
+	background-color: red;
+	color: white;
+	border: 2px solid red;
+	font-weight: bold;
+	transition: 0.3s linear;
+}
+
+.guardar:hover {
+	background-color: rgb(255, 224, 224);
+	color: red;
+	border: 2px solid rgb(255, 224, 224);
+	cursor: pointer;
 }
 
 /* =========================================================
@@ -348,15 +401,18 @@ tbody .tr-table:hover {
 }
 
 .btn-perfil {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 1rem;
 	width: 100%;
 	border-radius: 10px;
 	padding: 0.5rem;
 	border: none;
-	font-size: 1.5rem;
-	text-align: center;
-	font-weight: bold;
+	font-weight: bold; text-align : center;
 	transition: linear 0.3s;
-	background-color: rgb(214, 206, 206);
+	background-color: red;
+	color: white;
+	text-align: center;
+	cursor: pointer;
 }
 
 .btn-perfil:hover {
@@ -388,4 +444,129 @@ tbody .tr-table:hover {
 .td-perfil:last-child {
 	font-weight: bold;
 	text-align: right;
+}
+
+/* =========================================================
+14. CERRAR SESION - MODAL
+========================================================= */
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	pointer-events: none;
+	z-index: 9999;
+	transition: opacity 0.2s ease;
+}
+
+.modal.active {
+	opacity: 1;
+	pointer-events: all;
+}
+
+.modal-box {
+	background: white;
+	border-radius: 12px;
+	text-align: center;
+	min-width: 300px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+	height: auto;
+}
+
+.modal-bar {
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: white;
+	padding: 1rem;
+	background-color: red;
+	border-radius: 12px 12px 0 0;
+}
+
+.modal-actions {
+	margin: 1rem;
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+}
+
+.confirm {
+	background-color: red;
+	color: white;
+	border: 2px solid red;
+	font-weight: bold;
+	transition: 0.3s linear;
+}
+
+/* =========================================================
+15. PERMISOS
+========================================================= */
+
+.grid-content-permisos table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+	overflow: hidden;
+}
+
+.grid-content-permisos .th-table {
+	font-size: 1rem;
+}
+
+.grid-content-permisos .td-table {
+	text-align: center;
+	vertical-align: middle;
+	padding: 0.7rem;
+}
+
+.grid-content-permisos .tr-table:hover {
+	background-color: rgb(255, 224, 224);
+}
+
+.grid-content-permisos .cbox-perm {
+	width: 22px;
+	height: 22px;
+	accent-color: red;
+	cursor: pointer;
+}
+
+.grid-content-permisos .fila-disabled {
+	opacity: 0.5;
+	background-color: #f3f3f3;
+}
+
+.grid-content-permisos table th,
+.grid-content-permisos table td {
+	padding: 0.8rem;
+}
+
+/* =========================================================
+16. ERROR
+========================================================= */
+.error-page {
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 20rem;
+}
+
+.error-card {
+	background-color: white;
+	border-radius: 20px;
+	text-align: center;
+}
+
+.error-title {
+	background-color: red;
+	border-radius: 20px 20px 0 0;
+	color: white;
+	padding: 1rem;
+}
+
+.error-content {
+	padding: 1rem;
 }
