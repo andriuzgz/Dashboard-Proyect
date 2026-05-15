@@ -62,7 +62,7 @@ public class ContarDAO {
 	}
 
 	public int contarUsuariosSuspendidos() {
-		return contarNull("usuario", "rol");
+		return contarConCondicion("usuario", "estado", 2);
 	}
 
 	public int contarAdministradores() {

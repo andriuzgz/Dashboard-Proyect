@@ -1,5 +1,6 @@
 package cud;
 
+import auth.Login;
 import dao.UsuarioDAO;
 import model.Permiso;
 import model.Usuario;
@@ -21,10 +22,11 @@ public class UsuarioCUD extends HttpServlet {
 
 	private Date parseFecha(String fecha) throws Exception {
 		return new SimpleDateFormat("yyyy-MM-dd").parse(fecha);
-		
+
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		@SuppressWarnings("unchecked")
 		List<Permiso> permisos = (List<Permiso>) request.getSession().getAttribute("permisos");
@@ -50,13 +52,13 @@ public class UsuarioCUD extends HttpServlet {
 
 				u.setNombre(request.getParameter("nombre"));
 				u.setApellidos(request.getParameter("apellidos"));
-				u.setPassword(request.getParameter("password"));
+				u.setPassword(Login.md5(request.getParameter("password")));
 				u.setFechaNacimiento(parseFecha(request.getParameter("fechaNacimiento")));
 				u.setRol(Integer.parseInt(request.getParameter("rol")));
 				u.setDepartamento(Integer.parseInt(request.getParameter("departamento")));
 				u.setEstadoInt(Integer.parseInt(request.getParameter("estado")));
 				dao.insertar(u);
-				
+
 			}
 
 			// =========================
@@ -81,7 +83,7 @@ public class UsuarioCUD extends HttpServlet {
 				u.setEstadoInt(Integer.parseInt(request.getParameter("estado")));
 
 				dao.actualizar(u);
-				
+
 			}
 
 			// =========================
@@ -98,29 +100,23 @@ public class UsuarioCUD extends HttpServlet {
 				int id = Integer.parseInt(request.getParameter("id"));
 
 				dao.eliminar(id);
-				
+
 			}
-			
+
 			// =========================
 			// TOGGLEAR
 			// =========================
 			else if ("toggle".equals(action)) {
 
-			    if (!PermisosUtil.tienePermiso(
-			            permisos,
-			            "usuarios",
-			            "editar")) {
+				if (!PermisosUtil.tienePermiso(permisos, "usuarios", "editar")) {
 
-			        response.sendError(403);
-			        return;
-			    }
+					response.sendError(403);
+					return;
+				}
 
-			    int id =
-			        Integer.parseInt(
-			            request.getParameter("id")
-			        );
+				int id = Integer.parseInt(request.getParameter("id"));
 
-			    dao.toggleEstado(id);
+				dao.toggleEstado(id);
 			}
 
 		} catch (Exception e) {

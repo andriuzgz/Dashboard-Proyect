@@ -8,6 +8,9 @@
 List<Historico> historico  = (List<Historico>) request.getAttribute("historico");
 %>
 
+<!-- Include Modal -->
+<jsp:include page="/jsp/components/modal.jsp" />
+
 <title>Historico</title>
 <div class="div-container historico">
 	<div class="title">
@@ -63,7 +66,7 @@ List<Historico> historico  = (List<Historico>) request.getAttribute("historico")
 						<td class="td-table"><%=h.getValorNuevo() != null ? h.getValorNuevo() : "-"%></td>
 						<td class="td-table"><%=h.getFecha()%></td>
 						<td class="td-table">
-							<button class="button-action">🔍</button>
+							<button class="button-action" onclick="abrirModal()">🔍</button>
 						</td>
 					</tr>
 					<%
@@ -82,3 +85,4 @@ List<Historico> historico  = (List<Historico>) request.getAttribute("historico")
 		</div>
 	</div>
 </div>
+<script src="<%=request.getContextPath()%>/js/modal/modal.js"></script>

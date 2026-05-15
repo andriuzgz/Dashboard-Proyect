@@ -1,8 +1,10 @@
 package servlets;
 
 import dao.PedidoDAO;
+import dao.ProveedorDAO;
 import model.Pedido;
 import model.Permiso;
+import model.Proveedor;
 import utils.PermisosUtil;
 import dao.DepartamentoDAO;
 import model.Departamento;
@@ -44,26 +46,31 @@ public class PedidosServlet extends HttpServlet {
 			return;
 		}
 
+		// DAO
 		PedidoDAO pdao = new PedidoDAO();
+		ProveedorDAO provdao = new ProveedorDAO();
+		DepartamentoDAO ddao = new DepartamentoDAO();
+		
+		Departamento d = ddao.obtenerPorResponsable(id);
 
 		// ADMIN Y CONTABLE
 		if (rol == 1 || rol == 2) {
 
 			List<Pedido> pedidos = pdao.obtenerTodos();
+			List<Proveedor> proveedores = provdao.obtenerTodos();
 
+			request.setAttribute("proveedores", proveedores);
 			request.setAttribute("pedidos", pedidos);
 			request.setAttribute("contenido", "/jsp/pages/pedidos_uno.jsp");
 		}
 
 		// JEFE DEPARTAMENTO
 		else if (rol == 3) {
-
-			DepartamentoDAO ddao = new DepartamentoDAO();
-
-			Departamento d = ddao.obtenerPorResponsable(id);
-
+			
 			List<Pedido> pedidos = pdao.obtenerPorDepartamento(d.getId());
+			List<Proveedor> proveedores = provdao.obtenerPorDepartamento(d.getId());
 
+			request.setAttribute("proveedores", proveedores);
 			request.setAttribute("pedidos", pedidos);
 			request.setAttribute("contenido", "/jsp/pages/pedidos_dos.jsp");
 		}

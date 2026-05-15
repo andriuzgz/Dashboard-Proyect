@@ -15,6 +15,15 @@ List<Permiso> permisos = (List<Permiso>) session.getAttribute("permisos");
 List<Proveedor> proveedores = (List<Proveedor>) request.getAttribute("proveedores");
 %>
 
+<!-- Include Form -->
+<div id="usuarios-form-template" style="display:none;">
+    <jsp:include page="/jsp/forms/proveedores_form.jsp"/>
+</div>
+
+<!-- Include Modal -->
+<jsp:include page="/jsp/components/modal.jsp" />
+<jsp:include page="/jsp/modal/modal_delete.jsp" />
+
 <title>Proveedores</title>
 <div class="div-container proveedores">
 	<div class="title">
@@ -36,7 +45,7 @@ List<Proveedor> proveedores = (List<Proveedor>) request.getAttribute("proveedore
 					<tr class="tr-table">
 						<td class="td-table">Crear un nuevo proveedor</td>
 						<td class="td-table">
-							<button title="Crear Usuario" class="button-action add">📄</button>
+							<button title="Crear Usuario" class="button-action add" onclick="modalCrear()">📄</button>
 						</td>
 						<td class="td-table">Filtra los proveedores para buscar</td>
 						<td class="td-table"><input class="user-search" type=search></td>
@@ -89,19 +98,19 @@ List<Proveedor> proveedores = (List<Proveedor>) request.getAttribute("proveedore
 						<td class="td-table <%=p.getClaseEstado()%>"><%=p.getEstado()%></td>
 						<td class="td-table">
 							<% if (PermisosUtil.tienePermiso(permisos, "proveedores", "editar")) { %>
-							<button class="button-action">✏️</button> 
+							<button class="button-action" onclick="abrirModal()">✏️</button> 
 							<% } %>
-							<button class="button-action">🔍</button> 
+							<button class="button-action" onclick="abrirModal()">🔍</button> 
 							<% if (PermisosUtil.tienePermiso(permisos, "proveedores", "editar")) { %>
-							<form method="post"
-								action="<%=request.getContextPath()%>/cud/proveedores" style="display: inline;">
+							<form method="post" action="<%=request.getContextPath()%>/cud/proveedores" style="display: inline;">
 								<input type="hidden" name="action" value="toggle"> 
 								<input type="hidden" name="id" value="<%=p.getId()%>">
 								<button class="button-action" type="submit">🔄️</button>
 							</form> 
 							<% } %> 
 							<% if (PermisosUtil.tienePermiso(permisos, "proveedores", "eliminar")) { %>
-							<button class="button-action delete">🗑️</button> 
+							<button class="button-action delete" 
+							onclick="modalEliminar('<%=p.getId()%>','<%=p.getNombre()%>')">🗑️</button> 
 							<% } %>
 						</td>
 					</tr>
@@ -111,3 +120,6 @@ List<Proveedor> proveedores = (List<Proveedor>) request.getAttribute("proveedore
 		</div>
 	</div>
 </div>
+<script src="<%=request.getContextPath()%>/js/modal/modal.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_delete.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_create.js"></script>

@@ -15,6 +15,15 @@ List<Permiso> permisos = (List<Permiso>) session.getAttribute("permisos");
 List<Factura> facturas = (List<Factura>) request.getAttribute("facturas");
 %>
 
+<!-- Include Form -->
+<div id="usuarios-form-template" style="display:none;">
+    <jsp:include page="/jsp/forms/facturas_form.jsp"/>
+</div>
+
+<!-- Include Modal -->
+<jsp:include page="/jsp/components/modal.jsp" />
+<jsp:include page="/jsp/modal/modal_delete.jsp" />
+
 <title>Facturas</title>
 <div class="div-container facturas">
 	<div class="title">
@@ -36,7 +45,7 @@ List<Factura> facturas = (List<Factura>) request.getAttribute("facturas");
 					<tr class="tr-table">
 						<td class="td-table">Crear una nueva factura</td>
 						<td class="td-table">
-							<button title="Crear Usuario" class="button-action add">📄</button>
+							<button title="Crear Usuario" class="button-action add" onclick="modalCrear()">📄</button>
 						</td>
 						<td class="td-table">Filtra las facturas para buscar</td>
 						<td class="td-table"><input class="user-search" type=search></td>
@@ -92,11 +101,12 @@ List<Factura> facturas = (List<Factura>) request.getAttribute("facturas");
 						<td class="td-table <%=f.getClaseEstado()%>"><%=f.getEstado()%></td>
 						<td class="td-table">
 						<% if (PermisosUtil.tienePermiso(permisos, "facturas", "editar")) { %>
-						    <button class="button-action">✏️</button>
+						    <button class="button-action" onclick="abrirModal()">✏️</button>
 						<% } %>
-							<button class="button-action">🔍</button>
+							<button class="button-action" onclick="abrirModal()">🔍</button>
 						<% if (PermisosUtil.tienePermiso(permisos, "facturas", "eliminar")) { %>
-						    <button class="button-action delete">🗑️</button>
+							<button class="button-action delete" 
+							onclick="modalEliminar('<%=f.getId()%>','<%=f.getNumero()%>')">🗑️</button> 
 						<% } %>
 						</td>
 					</tr>
@@ -116,3 +126,6 @@ List<Factura> facturas = (List<Factura>) request.getAttribute("facturas");
 		</div>
 	</div>
 </div>
+<script src="<%=request.getContextPath()%>/js/modal/modal.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_delete.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_create.js"></script>

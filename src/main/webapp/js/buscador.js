@@ -9,7 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const filtro = input.value.toLowerCase();
 
             // Buscar el contenedor padre grande (grid)
-            const contenedor = input.closest(".grid-content, .grid-content-alerts, .grid-content-usuario, .grid-content-departamento");
+            const contenedor = input.closest(
+				".grid-content, .grid-content-alerts, .grid-content-usuario, .grid-content-departamento, .grid-content-pedidos, .grid-content-pedidos_dos"
+			);
 
             if (!contenedor) return;
 

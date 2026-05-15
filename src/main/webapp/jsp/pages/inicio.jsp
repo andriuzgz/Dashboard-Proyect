@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ page import="model.Alerta"%>
 <%@ page import="java.util.List"%>
-<%@ page import="model.Permiso" %>
-<%@ page import="utils.PermisosUtil" %>
+<%@ page import="model.Permiso"%>
+<%@ page import="utils.PermisosUtil"%>
 
 <%
 @SuppressWarnings("unchecked")
@@ -14,21 +14,28 @@ List<Permiso> permisos = (List<Permiso>) session.getAttribute("permisos");
 @SuppressWarnings("unchecked")
 List<Alerta> alertas = (List<Alerta>) request.getAttribute("alertas");
 %>
+
 <%
 String nombre = (String) session.getAttribute("nombre");
 Integer rol = (Integer) session.getAttribute("rol");
 %>
 
 <title>Inicio</title>
-<body>
+
+<!-- Include Modal -->
+<jsp:include page="/jsp/components/modal.jsp" />
+<jsp:include page="/jsp/modal/modal_delete.jsp" />
+
 <div class="div-container inicio">
 	<div class="title">
 		<a>Inicio</a>
 	</div>
 	<p class="text">
-		Bienvenido <%=nombre%> a la aplicación de gestión de pedidos 
-		y presupuestos. Aquí podrás administrar usuarios, departamentos 
-		,pedidos, presupuestos y proveedores de manera eficiente.
+		Bienvenido
+		<%=nombre%>
+		a la aplicación de gestión de pedidos y presupuestos. Aquí podrás
+		administrar usuarios, departamentos ,pedidos, presupuestos y
+		proveedores de manera eficiente.
 	</p>
 	<div class="grid-content-alerts">
 		<div class="content">
@@ -67,8 +74,7 @@ Integer rol = (Integer) session.getAttribute("rol");
 						<th class="th-table">Accion</th>
 					</tr>
 					<% if (alertas != null && !alertas.isEmpty()) {
-						for (Alerta a : alertas)
-					{ %>
+						for (Alerta a : alertas) { %>
 					<tr class="tr-table">
 
 						<td class="td-table"><%=a.getId()%></td>
@@ -81,17 +87,21 @@ Integer rol = (Integer) session.getAttribute("rol");
 						<td class="td-table"><%=a.getFecha()%></td>
 						<td class="td-table <%=a.getClaseEstado()%>"><%=a.getEstado()%></td>
 						<td class="td-table">
-							<button class="button-action">🔍</button>
-						<% if (PermisosUtil.tienePermiso(permisos, "inicio", "eliminar")) { %>
-						    <button class="button-action delete">🗑️</button>
-						<% } %>
+							<button class="button-action" onclick="abrirModal()">🔍</button>
+							<% if (PermisosUtil.tienePermiso(permisos, "inicio", "eliminar")) { %>
+							<button class="button-action delete"
+							onclick="modalEliminar('<%=a.getId()%>','<%=a.getFecha()%>')">🗑️</button>
+							<% } %>
 						</td>
 					</tr>
 					<% }
 					} else {
-					%> <tr class="tr-table">
+					%>
+					<tr class="tr-table">
 						<td class="td-table" colspan="10">No hay alertas</td>
-					</tr> <% }
+					</tr>
+					<%
+					}
 					%>
 				</table>
 			</div>
@@ -105,9 +115,11 @@ Integer rol = (Integer) session.getAttribute("rol");
 			<div class="content-about-item">
 				<a class="content-text">Total Usuarios: <%=request.getAttribute("totalUsuarios")%></a><br>
 				<a class="content-text">Total Departamentos: <%=request.getAttribute("totalDepartamentos")%></a><br>
-				<a class="content-text">Total Pedidos: <%=request.getAttribute("totalPedidos")%></a><br> 
+				<a class="content-text">Total Pedidos: <%=request.getAttribute("totalPedidos")%></a><br>
 				<a class="content-text">Total Presupuesto: <%=request.getAttribute("totalPresupuestos")%></a><br>
-				<a class="content-text">Total Facturado: <%=request.getAttribute("totalFacturado")%> €</a><br>
+				<a class="content-text">Total Facturado: <%=request.getAttribute("totalFacturado")%>
+					€
+				</a><br>
 			</div>
 		</div>
 		<div class="content">
@@ -115,11 +127,11 @@ Integer rol = (Integer) session.getAttribute("rol");
 				<a class="content-text">Resumen de Usuarios</a>
 			</div>
 			<div class="content-about-item">
-				<a class="content-text">Usuarios Activos: <%=request.getAttribute("usuariosActivos")%></a><br> 
+				<a class="content-text">Usuarios Activos: <%=request.getAttribute("usuariosActivos")%></a><br>
 				<a class="content-text">Usuarios Suspendidos: <%=request.getAttribute("usuariosSuspendidos")%></a><br>
-				<a class="content-text">Jefes de Departamento: <%=request.getAttribute("jefes") %></a><br>
-				<a class="content-text">Administradores: <%=request.getAttribute("admins") %></a><br>
-				<a class="content-text">Contables: <%=request.getAttribute("contables") %></a>
+				<a class="content-text">Jefes de Departamento: <%=request.getAttribute("jefes")%></a><br>
+				<a class="content-text">Administradores: <%=request.getAttribute("admins")%></a><br>
+				<a class="content-text">Contables: <%=request.getAttribute("contables")%></a>
 			</div>
 		</div>
 		<div class="content">
@@ -148,9 +160,9 @@ Integer rol = (Integer) session.getAttribute("rol");
 				<a class="content-text">Resumen de Facturas</a>
 			</div>
 			<div class="content-about-item">
-				<a class="content-text">Total Facturas: <%=request.getAttribute("totalFacturas")%></a><br> 
-				<a class="content-text">Facturas Pagadas: <%=request.getAttribute("facturasPagadas")%></a><br> 
-				<a class="content-text">Facturas Pendientes: <%=request.getAttribute("facturasPendientes")%></a><br> 
+				<a class="content-text">Total Facturas: <%=request.getAttribute("totalFacturas")%></a><br>
+				<a class="content-text">Facturas Pagadas: <%=request.getAttribute("facturasPagadas")%></a><br>
+				<a class="content-text">Facturas Pendientes: <%=request.getAttribute("facturasPendientes")%></a><br>
 				<a class="content-text">Facturas Vencidas [Pagadas]: <%=request.getAttribute("vencidasPagadas")%></a><br>
 				<a class="content-text">Facturas Vencidas [Pendientes]: <%=request.getAttribute("vencidasPendientes")%></a><br>
 			</div>
@@ -162,11 +174,12 @@ Integer rol = (Integer) session.getAttribute("rol");
 			<div class="content-about-item">
 				<a class="content-text">Departamentos con Presupuesto: <%=request.getAttribute("presupuestoActivo")%></a><br>
 				<a class="content-text">Departamentos sin Presupuesto: <%=request.getAttribute("sinPresupuesto")%></a><br>
-				<a class="content-text">Departamentos con Presupuesto Bajo: <%=request.getAttribute("presupuestoBajo")%></a><br> 
-				<a class="content-text">Departamentos con Presupuesto Negativo: <%=request.getAttribute("presupuestoNegativo")%></a><br>
+				<a class="content-text">Departamentos con Presupuesto Bajo: <%=request.getAttribute("presupuestoBajo")%></a><br>
+				<a class="content-text">Departamentos con Presupuesto Negativo:
+					<%=request.getAttribute("presupuestoNegativo")%></a><br>
 			</div>
 		</div>
 	</div>
 </div>
-</body>
-</html>
+<script src="<%=request.getContextPath()%>/js/modal/modal.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_delete.js"></script>

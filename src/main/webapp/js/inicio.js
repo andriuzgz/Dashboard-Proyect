@@ -1,27 +1,13 @@
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-        const buttons =
-            document.querySelectorAll(
-                ".button-nav"
-            );
+    const buttons = document.querySelectorAll(".button-nav");
+    const path = window.location.pathname;
 
-        const path =
-            window.location.pathname;
+    buttons.forEach(btn => { const url = btn.getAttribute("data-url");
 
-        buttons.forEach(btn => {
+        if (path.includes(url)) {
 
-            const url =
-                btn.getAttribute(
-                    "data-url"
-                );
-
-            if (path.includes(url)) {
-
-                btn.classList.add(
-                    "active"
-                );
-            }
-        });
+            btn.classList.add("active");
+        }
     });
+});

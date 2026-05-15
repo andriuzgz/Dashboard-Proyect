@@ -15,6 +15,15 @@ List<Permiso> permisos = (List<Permiso>) session.getAttribute("permisos");
 List<Presupuesto> presupuestos = (List<Presupuesto>) request.getAttribute("presupuestos");
 %>
 
+<!-- Include Form -->
+<div id="usuarios-form-template" style="display:none;">
+    <jsp:include page="/jsp/forms/presupuestos_form.jsp"/>
+</div>
+
+<!-- Include Modal -->
+<jsp:include page="/jsp/components/modal.jsp" />
+<jsp:include page="/jsp/modal/modal_delete.jsp" />
+
 <title>Presupuestos</title>
 <div class="div-container presupuestos">
 	<div class="title">
@@ -37,7 +46,7 @@ List<Presupuesto> presupuestos = (List<Presupuesto>) request.getAttribute("presu
 						<td class="td-table">Crea un nuevo presupuesto para el
 							departamento</td>
 						<td class="td-table">
-							<button title="Crear Usuario" class="button-action add">📄</button>
+							<button title="Crear Usuario" class="button-action add" onclick="modalCrear()">📄</button>
 						</td>
 						<td class="td-table">Filtra los prespuestos para buscar</td>
 						<td class="td-table"><input class="user-search" type=search></td>
@@ -93,11 +102,12 @@ List<Presupuesto> presupuestos = (List<Presupuesto>) request.getAttribute("presu
 						<td class="td-table <%=p.getClaseEstado()%>"><%= p.getEstadoDinamico() %></td>
 						<td class="td-table">
 						<% if (PermisosUtil.tienePermiso(permisos, "presupuestos", "editar")) { %>
-						    <button class="button-action">✏️</button>
+						    <button class="button-action" onclick="abrirModal()">✏️</button>
 						<% } %>
-							<button class="button-action">🔍</button>
+							<button class="button-action" onclick="abrirModal()">🔍</button>
 						<% if (PermisosUtil.tienePermiso(permisos, "presupuestos", "eliminar")) { %>
-						    <button class="button-action delete">🗑️</button>
+							<button class="button-action delete" 
+							onclick="modalEliminar('<%=p.getId()%>','<%=p.getDepartamento()%>')">🗑️</button> 
 						<% } %>
 						</td>
 					</tr>
@@ -117,3 +127,6 @@ List<Presupuesto> presupuestos = (List<Presupuesto>) request.getAttribute("presu
 		</div>
 	</div>
 </div>
+<script src="<%=request.getContextPath()%>/js/modal/modal.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_delete.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_create.js"></script>

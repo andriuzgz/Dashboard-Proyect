@@ -1,5 +1,7 @@
 package servlets;
 
+import dao.DepartamentoDAO;
+import dao.RolDAO;
 import dao.UsuarioDAO;
 import model.Permiso;
 import model.Usuario;
@@ -14,40 +16,43 @@ import java.util.List;
 @WebServlet("/usuarios")
 public class UsuarioServlet extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        @SuppressWarnings("unchecked")
+		@SuppressWarnings("unchecked")
 		List<Permiso> permisos = (List<Permiso>) request.getSession().getAttribute("permisos");
 
-        if (!PermisosUtil.tienePermiso(permisos, "usuarios", "leer")) {
+		if (!PermisosUtil.tienePermiso(permisos, "usuarios", "leer")) {
 
-            request.setAttribute("error", "No tienes permisos para acceder a este módulo");
-            request.setAttribute("contenido", "/jsp/error/denied.jsp");
+			request.setAttribute("error", "No tienes permisos para acceder a este módulo");
+			request.setAttribute("contenido", "/jsp/error/denied.jsp");
 
-            request.getRequestDispatcher("/jsp/components/layout.jsp")
-                   .forward(request, response);
+			request.getRequestDispatcher("/jsp/components/layout.jsp").forward(request, response);
 
-            return;
-        }
-    	
-        HttpSession session = request.getSession();
-        Integer id = (Integer) session.getAttribute("id");
+			return;
+		}
 
-        if (id == null) {
-            response.sendRedirect(request.getContextPath() + "/auth/login.jsp");
-            return;
-        }
+		HttpSession session = request.getSession();
+		Integer id = (Integer) session.getAttribute("id");
 
-        UsuarioDAO udao = new UsuarioDAO();
-        List<Usuario> usuarios = udao.obtenerTodos();
-        request.setAttribute("usuarios", usuarios);
+		if (id == null) {
+			response.sendRedirect(request.getContextPath() + "/auth/login.jsp");
+			return;
+		}
 
+		UsuarioDAO udao = new UsuarioDAO();
+		List<Usuario> usuarios = udao.obtenerTodos();
+		request.setAttribute("usuarios", usuarios);
 
-        request.setAttribute("contenido", "/jsp/pages/usuarios.jsp");
-        request.getRequestDispatcher("/jsp/components/layout.jsp")
-               .forward(request, response);
-    }
+		RolDAO rdao = new RolDAO();
+		request.setAttribute("roles", rdao.obtenerTodos());
+
+		DepartamentoDAO ddao = new DepartamentoDAO();
+		request.setAttribute("departamentos", ddao.obtenerTodos());
+
+		request.setAttribute("contenido", "/jsp/pages/usuarios.jsp");
+		request.getRequestDispatcher("/jsp/components/layout.jsp").forward(request, response);
+	}
 }

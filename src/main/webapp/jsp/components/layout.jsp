@@ -21,14 +21,14 @@ if (id == null) {
 </head>
 <body data-userid="<%=session.getAttribute("id")%>">
 	<div id="modalLogout" class="modal">
-		<div class="modal-box">
+		<div class="modal-content">
 			<div class="modal-bar">
 				<a>¿Cerrar Sesion?</a>
 			</div>
 			<div class="modal-actions">
 				<p>¿Quiere cerrar la sesion?</p>
 				<br>
-				<button type="button" class="button" onclick="cerrarModal()">Cancelar</button>
+				<button type="button" class="button" onclick="cerrarModalLogout()">Cancelar</button>
 				<button type="button" class="button confirm"
 					onclick="confirmarLogout()">Sí, salir</button>
 			</div>
@@ -36,16 +36,16 @@ if (id == null) {
 	</div>
 	<form action="<%=request.getContextPath()%>/logout" method="post"
 		id="formLogout"></form>
-		
+
 	<!--  Interfaz Principal  -->
 	<div class="interface">
-	
+
 		<!-- Navbar Include  -->
 		<jsp:include page="/jsp/components/navbar.jsp" />
 
 		<!-- Page Include  -->
 		<jsp:include page='<%=(String) request.getAttribute("contenido")%>' />
-		
+
 	</div>
 </body>
 <script src="<%=request.getContextPath()%>/js/buscador.js"></script>

@@ -47,7 +47,7 @@ Departamento d = (Departamento) request.getAttribute("departamento");
 					</tr>
 					<% if (PermisosUtil.tienePermiso(permisos, "departamentos", "editar")) { %>
 					<tr class="tr-perfil">
-						<td class="td-perfil">Editar Departamento</td>
+						<td class="td-perfil" onclick="abrirModal()">Editar Departamento</td>
 						<td class="td-perfil">
 						    <button class="button-action">✏️</button>
 						</td>
@@ -123,13 +123,13 @@ Departamento d = (Departamento) request.getAttribute("departamento");
 					</tr>
 					<tr class="tr-perfil">
 						<td class="td-perfil">Estado:</td>
-						<td class="td-perfil <%=d.getClaseEstado()%>"><%=d.getEstado()%></td>
+						<td class="td-perfil tz-border <%=d.getClaseEstado()%>"><%=d.getEstado()%></td>
 					</tr>
 					<% if (PermisosUtil.tienePermiso(permisos, "departamentos", "editar")) { %>
 					<tr class="tr-perfil">
 						<td class="td-perfil">Editar Economia</td>
 						<td class="td-perfil">
-						    <button class="button-action">✏️</button>
+						    <button class="button-action" onclick="abrirModal()">✏️</button>
 						</td>
 					</tr>
 					<% } %>

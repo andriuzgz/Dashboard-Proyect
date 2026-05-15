@@ -14,6 +14,9 @@ List<Permiso> permisos = (List<Permiso>) session.getAttribute("permisos");
 Usuario u = (Usuario) request.getAttribute("usuario");
 %>
 
+<!-- Include Modal -->
+<jsp:include page="/jsp/components/modal.jsp" />
+
 <title>Mi Perfil</title>
 <div class="div-container perfil">
 	<div class="title">
@@ -42,9 +45,9 @@ Usuario u = (Usuario) request.getAttribute("usuario");
 				</div>
 				<div class="tab-perfil button-perfil">
 					<% if (PermisosUtil.tienePermiso(permisos, "perfil", "editar")) { %>
-					<button class="btn-perfil">Editar Mi Perfil</button>
+					<button class="btn-perfil" onclick="abrirModal()">Editar Mi Perfil</button>
 						<% } %>
-					<button class="btn-perfil">Reiniciar Contraseña</button>
+					<button class="btn-perfil" onclick="abrirModal()">Reiniciar Contraseña</button>
 				</div>
 			</div>
 		</div>
@@ -126,3 +129,4 @@ Usuario u = (Usuario) request.getAttribute("usuario");
 		</div>
 	</div>
 </div>
+<script src="<%=request.getContextPath()%>/js/modal/modal.js"></script>

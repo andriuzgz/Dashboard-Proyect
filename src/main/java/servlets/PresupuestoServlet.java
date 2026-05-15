@@ -1,6 +1,8 @@
 package servlets;
 
+import dao.DepartamentoDAO;
 import dao.PresupuestoDAO;
+import model.Departamento;
 import model.Permiso;
 import model.Presupuesto;
 import utils.PermisosUtil;
@@ -35,6 +37,10 @@ public class PresupuestoServlet extends HttpServlet {
         PresupuestoDAO pdao = new PresupuestoDAO();
         List<Presupuesto> presupuestos = pdao.obtenerTodos();
 
+        DepartamentoDAO ddao = new DepartamentoDAO();
+        List<Departamento> departamentos = ddao.obtenerTodos();
+        
+        request.setAttribute("departamentos", departamentos);
         request.setAttribute("presupuestos", presupuestos);
         request.setAttribute("contenido", "/jsp/pages/presupuestos.jsp");
 

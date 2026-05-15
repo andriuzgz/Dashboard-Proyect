@@ -53,7 +53,6 @@ public class FacturasServlet extends HttpServlet {
 			List<Factura> facturas = fdao.obtenerTodas();
 
 			request.setAttribute("facturas", facturas);
-
 			request.setAttribute("contenido", "/jsp/pages/facturas_uno.jsp");
 		}
 
@@ -67,7 +66,7 @@ public class FacturasServlet extends HttpServlet {
 			List<Factura> facturas = fdao.obtenerPorDepartamento(d.getId());
 
 			request.setAttribute("facturas", facturas);
-			request.setAttribute("contenido", "/jsp/pages/factura_dos.jsp");
+			request.setAttribute("contenido", "/jsp/pages/facturas_dos.jsp");
 		}
 
 		// ERROR

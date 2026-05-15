@@ -27,7 +27,7 @@ public class ProveedoresServlet extends HttpServlet {
 		if (id == null) {
 			response.sendRedirect(request.getContextPath() + "/auth/login.jsp");
 			return;
-			
+
 		}
 
 		@SuppressWarnings("unchecked")

@@ -94,6 +94,9 @@ public class UsuarioDAO {
 				u.setDepartamentoNombre(rs.getString("nombre_departamento"));
 				u.setDepartamentoCodigo(rs.getString("codigo_departamento"));
 				u.setEstado(rs.getString("estado_nombre"));
+				u.setRol(rs.getInt("rol"));
+				u.setDepartamento(rs.getInt("departamento"));
+				u.setEstadoInt(rs.getInt("estado"));
 
 				lista.add(u);
 			}
