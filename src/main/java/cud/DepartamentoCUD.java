@@ -10,8 +10,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+/*import java.text.SimpleDateFormat;
+import java.util.Date;*/
 import java.util.List;
 
 @WebServlet("/cud/departamentos")
@@ -19,10 +19,10 @@ public class DepartamentoCUD extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private Date parseFecha(String fecha) throws Exception {
+	/*private Date parseFecha(String fecha) throws Exception {
 		return new SimpleDateFormat("yyyy-MM-dd").parse(fecha);
 		
-	}
+	}*/
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
@@ -52,7 +52,6 @@ public class DepartamentoCUD extends HttpServlet {
 
 				d.setNombre(request.getParameter("nombre"));
 				d.setCodigo(request.getParameter("codigo"));
-				d.setAnioFecha(parseFecha(request.getParameter("anioFecha")));
 				d.setResponsableId(Integer.parseInt(request.getParameter("responsable")));
 
 				dao.insertar(d);
@@ -74,7 +73,6 @@ public class DepartamentoCUD extends HttpServlet {
 				d.setId(Integer.parseInt(request.getParameter("id")));
 				d.setNombre(request.getParameter("nombre"));
 				d.setCodigo(request.getParameter("codigo"));
-				d.setAnioFecha(parseFecha(request.getParameter("anioFecha")));
 				d.setResponsableId(Integer.parseInt(request.getParameter("responsable")));
 
 				dao.actualizar(d);

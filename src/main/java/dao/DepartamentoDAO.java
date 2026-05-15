@@ -18,7 +18,8 @@ public class DepartamentoDAO {
 				        d.nombre_departamento,
 				        d.codigo_departamento,
 				        d.anio_departamento,
-				        CONCAT(u.nombre, ' ', u.apellidos) AS responsable,
+				        d.responsable,
+						CONCAT(u.nombre, ' ', u.apellidos) AS responsable_nombre,
 				        p.importe_asignado,
 				        COUNT(dp.id_proveedor) AS contar_prov
 				    FROM departamento d
@@ -42,6 +43,8 @@ public class DepartamentoDAO {
 				d.setPresupuesto(rs.getDouble("importe_asignado"));
 				d.setContarProv(rs.getInt("contar_prov"));
 				d.setAnioFecha(rs.getDate("anio_departamento"));
+				d.setResponsableId(rs.getInt("responsable"));
+				d.setResponsable(rs.getString("responsable_nombre"));
 
 				lista.add(d);
 			}
@@ -121,15 +124,14 @@ public class DepartamentoDAO {
 				        responsable
 				    )
 
-				    VALUES (?, ?, ?, ?)
+				    VALUES (?, ?, CURDATE(), ?)
 				""";
 
 		try (Connection con = Conexion.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
 			ps.setString(1, d.getNombre());
 			ps.setString(2, d.getCodigo());
-			ps.setDate(3, new java.sql.Date(d.getAnioFecha().getTime()));
-			ps.setInt(4, d.getResponsableId());
+			ps.setInt(3, d.getResponsableId());
 
 			ps.executeUpdate();
 
@@ -146,7 +148,6 @@ public class DepartamentoDAO {
 				    SET
 				        nombre_departamento = ?,
 				        codigo_departamento = ?,
-				        anio_departamento = ?,
 				        responsable = ?
 
 				    WHERE id_departamento = ?
@@ -156,9 +157,8 @@ public class DepartamentoDAO {
 
 			ps.setString(1, d.getNombre());
 			ps.setString(2, d.getCodigo());
-			ps.setDate(3, new java.sql.Date(d.getAnioFecha().getTime()));
-			ps.setInt(4, d.getResponsableId());
-			ps.setInt(5, d.getId());
+			ps.setInt(3, d.getResponsableId());
+			ps.setInt(4, d.getId());
 
 			ps.executeUpdate();
 

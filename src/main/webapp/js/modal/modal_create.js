@@ -38,3 +38,32 @@ function modalCrear() {
         'input[name="confirm_password"]'
     ).required = true;
 }
+
+function modalCrearDepartamento() {
+
+	const contenido =
+		document.getElementById(
+			"departamentos-form-template"
+		).innerHTML;
+
+	cargarModal(contenido);
+
+	const modal =
+		document.getElementById(
+			"modal-body"
+		);
+
+	modal.querySelector(
+		"#form-action"
+	).value = "crear";
+
+	modal.querySelector(
+		"#modal-title"
+	).innerHTML =
+		"Operacion Creacion [C]";
+
+	modal.querySelector(
+		"#submit-button"
+	).innerHTML =
+		"Registrar";
+}

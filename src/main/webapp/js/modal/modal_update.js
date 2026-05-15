@@ -74,3 +74,52 @@ function modalEditarUsuario(btn) {
         'input[name="confirm_password"]'
     ).required = false;
 }
+
+function modalEditarDepartamento(btn) {
+
+	const contenido =
+		document.getElementById(
+			"departamentos-update-template"
+		).innerHTML;
+
+	cargarModal(contenido);
+
+	const modal =
+		document.getElementById(
+			"modal-body"
+		);
+
+	modal.querySelector(
+		"#form-action"
+	).value = "editar";
+
+	modal.querySelector(
+		"#edit-id"
+	).value =
+		btn.dataset.id;
+
+	modal.querySelector(
+		"#edit-nombre"
+	).value =
+		btn.dataset.nombre;
+
+	modal.querySelector(
+		"#edit-codigo"
+	).value =
+		btn.dataset.codigo;
+
+	modal.querySelector(
+		"#edit-responsable"
+	).value =
+		btn.dataset.responsable;
+
+	modal.querySelector(
+		"#modal-title"
+	).innerHTML =
+		"Operacion Editar [U]";
+
+	modal.querySelector(
+		"#submit-button"
+	).innerHTML =
+		"Guardar Cambios";
+}

@@ -17,6 +17,11 @@ List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
 
 <title>Usuarios</title>
 
+<!-- Include View -->
+<div id="usuarios-view-template" style="display: none;">
+	<jsp:include page="/jsp/views/usuarios_view.jsp" />
+</div>
+
 <!-- Include Form -->
 <div id="usuarios-form-template" style="display: none;">
 	<jsp:include page="/jsp/forms/usuarios_form.jsp" />
@@ -44,19 +49,27 @@ List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
 			<div class="content-about-table">
 				<table class="table-add">
 					<tr>
-						<% if (PermisosUtil.tienePermiso(permisos, "usuarios", "crear")) { %>
+						<%
+						if (PermisosUtil.tienePermiso(permisos, "usuarios", "crear")) {
+						%>
 						<th class="th-table" colspan="2">Nuevo Usuario</th>
-						<% } %>
+						<%
+						}
+						%>
 						<th class="th-table" colspan="2">Filtrar Usuario</th>
 					</tr>
 					<tr class="tr-table">
-						<% if (PermisosUtil.tienePermiso(permisos, "usuarios", "crear")) { %>
+						<%
+						if (PermisosUtil.tienePermiso(permisos, "usuarios", "crear")) {
+						%>
 						<td class="td-table">Crea una nueva cuenta</td>
 						<td class="td-table">
 							<button title="Crear Usuario" class="button-action add"
 								onclick="modalCrear()">📄</button>
 						</td>
-						<% } %>
+						<%
+						}
+						%>
 						<td class="td-table">Filtra los usuarios para buscar</td>
 						<td class="td-table"><input class="user-search" type=search></td>
 					</tr>
@@ -94,7 +107,9 @@ List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
 						<td class="td-table"><%=u.getFechaBaja() != null ? u.getFechaBaja() : "Sin Fecha"%></td>
 						<td class="td-table <%=u.getClaseEstado()%>"><%=u.getEstado()%></td>
 						<td class="td-table">
-							<% if (PermisosUtil.tienePermiso(permisos, "usuarios", "editar")) { %>
+							<%
+							if (PermisosUtil.tienePermiso(permisos, "usuarios", "editar")) {
+							%>
 
 							<button class="button-action" data-id="<%=u.getId()%>"
 								data-nombre="<%=u.getNombre()%>"
@@ -114,20 +129,40 @@ List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
 
 								<button class="button-action" type="submit">🔄️</button>
 
-							</form> <% } %>
+							</form> <%
+ }
+ %>
 
-							<button class="button-action" onclick="abrirModal()">🔍</button>
-							<% if (PermisosUtil.tienePermiso(permisos, "usuarios", "eliminar")) { %>
+							<button class="button-action" data-id="<%=u.getId()%>"
+								data-nombre="<%=u.getNombre()%>"
+								data-apellidos="<%=u.getApellidos()%>"
+								data-fecha-nacimiento="<%=u.getFechaNacimiento()%>"
+								data-rol="<%=u.getRolNombre()%>"
+								data-departamento="<%=u.getDepartamentoNombre()%> [<%=u.getDepartamentoCodigo()%>]"
+								data-fecha-alta="<%=u.getFechaAlta()%>"
+								data-fecha-baja="<%=u.getFechaBaja() != null ? u.getFechaBaja() : "Sin Fecha"%>"
+								data-estado="<%=u.getEstado()%>" onclick="modalVerUsuario(this)">
+
+								🔍</button> <%
+								 if (PermisosUtil.tienePermiso(permisos, "usuarios", "eliminar")) {
+								 %>
 							<button class="button-action delete"
 								onclick="modalEliminar('<%=u.getId()%>','<%=u.getNombre()%>')">🗑️</button>
-							<% } %>
+							<%
+							}
+							%>
 						</td>
 					</tr>
-					<% } } else { %>
+					<%
+					}
+					} else {
+					%>
 					<tr class="tr-table">
 						<td class="td-table" colspan="10">No hay usuarios</td>
 					</tr>
-					<% } %>
+					<%
+					}
+					%>
 				</table>
 			</div>
 		</div>

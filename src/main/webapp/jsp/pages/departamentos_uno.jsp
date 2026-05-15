@@ -14,10 +14,24 @@ List<Permiso> permisos = (List<Permiso>) session.getAttribute("permisos");
 @SuppressWarnings("unchecked")
 List<Departamento> departamentos = (List<Departamento>) request.getAttribute("departamentos");
 %>
+<!-- Include Form -->
+<div id="departamentos-form-template" style="display: none;">
+	<jsp:include page="/jsp/forms/departamentos_form.jsp" />
+</div>
+
+<!-- Include Editar -->
+<div id="departamentos-update-template" style="display: none;">
+	<jsp:include page="/jsp/forms/departamentos_form.jsp" />
+</div>
+
+<!-- Include Vista -->
+<div id="departamentos-view-template" style="display: none;">
+	<jsp:include page="/jsp/views/departamentos_view.jsp" />
+</div>
 
 <!-- Include Form -->
-<div id="usuarios-form-template" style="display:none;">
-    <jsp:include page="/jsp/forms/departamentos_form.jsp"/>
+<div id="usuarios-form-template" style="display: none;">
+	<jsp:include page="/jsp/forms/departamentos_form.jsp" />
 </div>
 
 <!-- Include Modal -->
@@ -33,28 +47,43 @@ List<Departamento> departamentos = (List<Departamento>) request.getAttribute("de
 	<div class="grid-content-departamento">
 		<div class="content">
 			<div class="content-item">
-		<% if (PermisosUtil.tienePermiso(permisos, "departamentos", "crear")) { %>
+				<%
+				if (PermisosUtil.tienePermiso(permisos, "departamentos", "crear")) {
+				%>
 				<a class="content-text">Crear Departamento</a>
-		<% } else {%>
+				<%
+				} else {
+				%>
 				<a class="content-text">Buscar Departamentos</a>
-		<% } %>
+				<%
+				}
+				%>
 			</div>
-		
+
 			<div class="content-about-table">
 				<table class="table-add">
 					<tr>
-						<% if (PermisosUtil.tienePermiso(permisos, "departamentos", "crear")) { %>
+						<%
+						if (PermisosUtil.tienePermiso(permisos, "departamentos", "crear")) {
+						%>
 						<th class="th-table" colspan="2">Nuevo Departamento</th>
-						<% } %>
+						<%
+						}
+						%>
 						<th class="th-table" colspan="2">Filtrar Departamento</th>
 					</tr>
 					<tr class="tr-table">
-						<% if (PermisosUtil.tienePermiso(permisos, "departamentos", "crear")) { %>
+						<%
+						if (PermisosUtil.tienePermiso(permisos, "departamentos", "crear")) {
+						%>
 						<td class="td-table">Crea un nuevo departamento</td>
 						<td class="td-table">
-							<button title="Crear Usuario" class="button-action add" onclick="modalCrear()">📄</button>
+							<button title="Crear Usuario" class="button-action add"
+								onclick="modalCrearDepartamento()">📄</button>
 						</td>
-						<% } %>
+						<%
+						}
+						%>
 						<td class="td-table">Filtra los departamentos para buscar</td>
 						<td class="td-table"><input class="user-search" type=search></td>
 					</tr>
@@ -86,23 +115,41 @@ List<Departamento> departamentos = (List<Departamento>) request.getAttribute("de
 						<td class="td-table"><%=d.getNombre()%></td>
 						<td class="td-table"><%=d.getCodigo()%></td>
 						<td class="td-table"><%=d.getResponsable()%></td>
-						<td class="td-table">
-						    <%= new java.text.SimpleDateFormat("yyyy").format(d.getAnioFecha()) %>
+						<td class="td-table"><%=new java.text.SimpleDateFormat("yyyy").format(d.getAnioFecha())%>
 						</td>
 						<td class="td-table"><%=d.getPresupuesto()%> €</td>
 						<td class="td-table"><%=d.getContarProv()%></td>
 						<td class="td-table">
-						<% if (PermisosUtil.tienePermiso(permisos, "departamentos", "editar")) { %>
-						    <button class="button-action" onclick="abrirModal()">✏️</button>
-						<% } %>
-							<button class="button-action" onclick="abrirModal()">🔍</button>
-						<% if (PermisosUtil.tienePermiso(permisos, "departamentos", "eliminar")) { %>
-							<button class="button-action delete" 
-							onclick="modalEliminar('<%=d.getId()%>','<%=d.getNombre()%>')">🗑️</button> 
-						<% } %>
+							<%
+							if (PermisosUtil.tienePermiso(permisos, "departamentos", "editar")) {
+							%>
+							<button class="button-action" data-id="<%=d.getId()%>"
+								data-nombre="<%=d.getNombre()%>"
+								data-codigo="<%=d.getCodigo()%>"
+								data-anio="<%=d.getAnioFecha()%>"
+								data-responsable="<%=d.getResponsableId()%>"
+								onclick="modalEditarDepartamento(this)">✏️</button> <%
+							 }
+							 %>
+							<button class="button-action" data-id="<%=d.getId()%>"
+								data-nombre="<%=d.getNombre()%>"
+								data-codigo="<%=d.getCodigo()%>"
+								data-responsable="<%=d.getResponsable()%>"
+								data-presupuesto="<%=d.getPresupuesto()%>"
+								data-proveedores="<%=d.getContarProv()%>"
+								data-anio="<%=d.getAnioFecha()%>"
+								onclick="modalVerDepartamento(this)">🔍</button> <%
+							 if (PermisosUtil.tienePermiso(permisos, "departamentos", "eliminar")) {
+							 %>
+							<button class="button-action delete"
+								onclick="modalEliminar('<%=d.getId()%>','<%=d.getNombre()%>')">🗑️</button>
+							<%
+							}
+							%>
 						</td>
 					</tr>
-					<% }
+					<%
+					}
 					} else {
 					%>
 					<tr class="tr-table">
@@ -119,3 +166,5 @@ List<Departamento> departamentos = (List<Departamento>) request.getAttribute("de
 <script src="<%=request.getContextPath()%>/js/modal/modal.js"></script>
 <script src="<%=request.getContextPath()%>/js/modal/modal_delete.js"></script>
 <script src="<%=request.getContextPath()%>/js/modal/modal_create.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_update.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_view.js"></script>
