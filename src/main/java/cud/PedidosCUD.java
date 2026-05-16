@@ -10,8 +10,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+/*import java.text.SimpleDateFormat;
+import java.util.Date;*/
 import java.util.List;
 
 @WebServlet("/cud/pedidos")
@@ -19,10 +19,9 @@ public class PedidosCUD extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private Date parseFecha(String fecha) throws Exception {
-
+	/*private Date parseFecha(String fecha) throws Exception {
 		return new SimpleDateFormat("yyyy-MM-dd").parse(fecha);
-	}
+	}*/
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
@@ -53,12 +52,6 @@ public class PedidosCUD extends HttpServlet {
 				p.setUsuarioId(Integer.parseInt(request.getParameter("usuario")));
 				p.setDepartamentoId(Integer.parseInt(request.getParameter("departamento")));
 				p.setProveedorId(Integer.parseInt(request.getParameter("proveedor")));
-				p.setEstadoInt(Integer.parseInt(request.getParameter("estado")));
-				p.setFacturaId(Integer.parseInt(request.getParameter("factura")));
-				p.setNumero(Integer.parseInt(request.getParameter("numero")));
-				p.setAnio(Integer.parseInt(request.getParameter("anio")));
-				p.setFecha(parseFecha(request.getParameter("fecha")));
-				p.setInversion(Double.parseDouble(request.getParameter("inversion")));
 				p.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
 
 				dao.insertar(p);
@@ -81,12 +74,6 @@ public class PedidosCUD extends HttpServlet {
 				p.setUsuarioId(Integer.parseInt(request.getParameter("usuario")));
 				p.setDepartamentoId(Integer.parseInt(request.getParameter("departamento")));
 				p.setProveedorId(Integer.parseInt(request.getParameter("proveedor")));
-				p.setEstadoInt(Integer.parseInt(request.getParameter("estado")));
-				p.setFacturaId(Integer.parseInt(request.getParameter("factura")));
-				p.setNumero(Integer.parseInt(request.getParameter("numero")));
-				p.setAnio(Integer.parseInt(request.getParameter("anio")));
-				p.setFecha(parseFecha(request.getParameter("fecha")));
-				p.setInversion(Double.parseDouble(request.getParameter("inversion")));
 				p.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
 
 				dao.actualizar(p);

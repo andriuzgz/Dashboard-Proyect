@@ -16,10 +16,35 @@ public class UsuarioDAO {
 
 		Usuario u = null;
 
-		String sql = "SELECT u.*, r.nombre_rol, d.nombre_departamento, d.codigo_departamento, "
-				+ "eu.nombre AS estado_nombre " + "FROM usuario u " + "JOIN roles r ON u.rol = r.id_rol "
-				+ "JOIN departamento d ON u.departamento = d.id_departamento "
-				+ "JOIN estado_usuario eu ON u.estado = eu.id_estado " + "WHERE u.id_usuario = ?";
+		String sql = """
+
+					SELECT
+						u.*,
+
+						r.nombre_rol,
+
+						d.id_departamento AS departamento,
+
+						d.nombre_departamento,
+
+						d.codigo_departamento,
+
+						eu.nombre AS estado_nombre
+
+					FROM usuario u
+
+					JOIN roles r
+						ON u.rol = r.id_rol
+
+					JOIN departamento d
+						ON u.departamento = d.id_departamento
+
+					JOIN estado_usuario eu
+						ON u.estado = eu.id_estado
+
+					WHERE u.id_usuario = ?
+
+				""";
 
 		try (Connection con = Conexion.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -37,6 +62,7 @@ public class UsuarioDAO {
 				u.setFechaAlta(rs.getDate("fecha_alta"));
 				u.setFechaBaja(rs.getDate("fecha_baja"));
 				u.setRolNombre(rs.getString("nombre_rol"));
+				u.setDepartamentoId(rs.getInt("departamento"));
 				u.setDepartamentoNombre(rs.getString("nombre_departamento"));
 				u.setDepartamentoCodigo(rs.getString("codigo_departamento"));
 				u.setEstado(rs.getString("estado_nombre"));
@@ -95,6 +121,7 @@ public class UsuarioDAO {
 				u.setDepartamentoCodigo(rs.getString("codigo_departamento"));
 				u.setEstado(rs.getString("estado_nombre"));
 				u.setRol(rs.getInt("rol"));
+				u.setDepartamentoId(rs.getInt("departamento"));
 				u.setDepartamento(rs.getInt("departamento"));
 				u.setEstadoInt(rs.getInt("estado"));
 
@@ -102,6 +129,62 @@ public class UsuarioDAO {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return lista;
+	}
+
+	public List<Usuario> obtenerResponsables() {
+
+		List<Usuario> lista = new ArrayList<>();
+
+		String sql = """
+
+					SELECT
+						u.*,
+						d.nombre_departamento,
+						d.codigo_departamento
+
+					FROM usuario u
+
+					JOIN departamento d
+						ON u.id_usuario =
+							d.responsable
+
+				""";
+
+		try (
+
+				Connection con = Conexion.getConnection();
+
+				PreparedStatement ps = con.prepareStatement(sql);
+
+				ResultSet rs = ps.executeQuery()
+
+		) {
+
+			while (rs.next()) {
+
+				Usuario u = new Usuario();
+
+				u.setId(rs.getInt("id_usuario"));
+
+				u.setNombre(rs.getString("nombre"));
+
+				u.setApellidos(rs.getString("apellidos"));
+
+				u.setDepartamentoId(rs.getInt("departamento"));
+
+				u.setDepartamentoNombre(rs.getString("nombre_departamento"));
+
+				u.setDepartamentoCodigo(rs.getString("codigo_departamento"));
+
+				lista.add(u);
+			}
+
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
 

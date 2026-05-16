@@ -14,6 +14,7 @@ public class Factura {
 	private String estado;
 	private int totalPedidos;
 	private String pedidos;
+	private int restante;
 
 	// Atributos SQL
 	private int estadoInt;
@@ -64,6 +65,10 @@ public class Factura {
 	    return estadoInt;
 	}
 
+	public int getRestante() {
+		return restante;
+	}
+	
 	// setters
 	public void setId(int id) {
 		this.id = id;
@@ -102,4 +107,7 @@ public class Factura {
 	    this.estadoInt = estadoInt;
 	}
 	
+	public void setRestante(int restante) {
+		this.restante = restante;
+	}
 }

@@ -17,14 +17,14 @@ List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
 
 <title>Usuarios</title>
 
-<!-- Include View -->
-<div id="usuarios-view-template" style="display: none;">
-	<jsp:include page="/jsp/views/usuarios_view.jsp" />
-</div>
-
 <!-- Include Form -->
 <div id="usuarios-form-template" style="display: none;">
 	<jsp:include page="/jsp/forms/usuarios_form.jsp" />
+</div>
+
+<!-- Include View -->
+<div id="usuarios-view-template" style="display: none;">
+	<jsp:include page="/jsp/views/usuarios_view.jsp" />
 </div>
 
 <!-- Include Update Form -->

@@ -8,6 +8,8 @@ import model.Proveedor;
 import utils.PermisosUtil;
 import dao.DepartamentoDAO;
 import model.Departamento;
+import dao.UsuarioDAO;
+import model.Usuario;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
@@ -50,7 +52,8 @@ public class PedidosServlet extends HttpServlet {
 		PedidoDAO pdao = new PedidoDAO();
 		ProveedorDAO provdao = new ProveedorDAO();
 		DepartamentoDAO ddao = new DepartamentoDAO();
-		
+		UsuarioDAO udao = new UsuarioDAO();
+
 		Departamento d = ddao.obtenerPorResponsable(id);
 
 		// ADMIN Y CONTABLE
@@ -58,15 +61,18 @@ public class PedidosServlet extends HttpServlet {
 
 			List<Pedido> pedidos = pdao.obtenerTodos();
 			List<Proveedor> proveedores = provdao.obtenerTodos();
+			List<Usuario> usuarios = udao.obtenerResponsables();
 
+			request.setAttribute("usuarios", usuarios);
 			request.setAttribute("proveedores", proveedores);
 			request.setAttribute("pedidos", pedidos);
+
 			request.setAttribute("contenido", "/jsp/pages/pedidos_uno.jsp");
 		}
 
 		// JEFE DEPARTAMENTO
 		else if (rol == 3) {
-			
+
 			List<Pedido> pedidos = pdao.obtenerPorDepartamento(d.getId());
 			List<Proveedor> proveedores = provdao.obtenerPorDepartamento(d.getId());
 

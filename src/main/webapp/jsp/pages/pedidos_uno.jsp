@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="model.Pedido"%>
-<%@ page import="java.util.List" %>
-<%@ page import="model.Permiso" %>
-<%@ page import="utils.PermisosUtil" %>
+<%@ page import="java.util.List"%>
+<%@ page import="model.Permiso"%>
+<%@ page import="utils.PermisosUtil"%>
 
 <%
 @SuppressWarnings("unchecked")
@@ -16,8 +16,8 @@ List<Pedido> pedidos = (List<Pedido>) request.getAttribute("pedidos");
 %>
 
 <!-- Include Form -->
-<div id="usuarios-form-template" style="display:none;">
-    <jsp:include page="/jsp/forms/pedidos_form.jsp"/>
+<div id="usuarios-form-template" style="display: none;">
+	<jsp:include page="/jsp/forms/pedidos_form.jsp" />
 </div>
 
 <!-- Include Modal -->
@@ -38,18 +38,27 @@ List<Pedido> pedidos = (List<Pedido>) request.getAttribute("pedidos");
 			<div class="content-about-table">
 				<table class="table-add">
 					<tr>
-				<% if (PermisosUtil.tienePermiso(permisos, "pedidos", "crear")) { %>
+						<%
+						if (PermisosUtil.tienePermiso(permisos, "pedidos", "crear")) {
+						%>
 						<th class="th-table" colspan="2">Nuevo Pedido</th>
-				<% } %>
+						<%
+						}
+						%>
 						<th class="th-table" colspan="2">Filtrar Pedidos</th>
 					</tr>
 					<tr class="tr-table">
-				<% if (PermisosUtil.tienePermiso(permisos, "pedidos", "crear")) { %>
+						<%
+						if (PermisosUtil.tienePermiso(permisos, "pedidos", "crear")) {
+						%>
 						<td class="td-table">Crear un nuevo pedido</td>
 						<td class="td-table">
-							<button title="Crear Usuario" class="button-action add" onclick="modalCrear()">📄</button>
+							<button title="Crear Usuario" class="button-action add"
+								onclick="modalCrear()">📄</button>
 						</td>
-				<% } %>
+						<%
+						}
+						%>
 						<td class="td-table">Filtra los pedidos para buscar</td>
 						<td class="td-table"><input class="user-search" type=search></td>
 					</tr>
@@ -89,14 +98,22 @@ List<Pedido> pedidos = (List<Pedido>) request.getAttribute("pedidos");
 						<td class="td-table"><%=p.getInversion()%> €</td>
 						<td class="td-table <%=p.getClaseEstado()%>"><%=p.getEstado()%></td>
 						<td class="td-table">
-						<% if (PermisosUtil.tienePermiso(permisos, "pedidos", "editar")) { %>
-						    <button class="button-action" onclick="abrirModal()">✏️</button>
-						<% } %>
+							<%
+							if (PermisosUtil.tienePermiso(permisos, "pedidos", "editar")) {
+							%>
+							<button class="button-action" onclick="abrirModal()">✏️</button>
+							<%
+							}
+							%>
 							<button class="button-action" onclick="abrirModal()">🔍</button>
-						<% if (PermisosUtil.tienePermiso(permisos, "pedidos", "eliminar")) { %>
-							<button class="button-action delete" 
-							onclick="modalEliminar('<%=p.getId()%>','<%=p.getNumero()%>/<%=p.getAnio()%>')">🗑️</button> 
-						<% } %>
+							<%
+							if (PermisosUtil.tienePermiso(permisos, "pedidos", "eliminar")) {
+							%>
+							<button class="button-action delete"
+								onclick="modalEliminar('<%=p.getId()%>','<%=p.getNumero()%>/<%=p.getAnio()%>')">🗑️</button>
+							<%
+							}
+							%>
 						</td>
 					</tr>
 					<%
@@ -118,3 +135,5 @@ List<Pedido> pedidos = (List<Pedido>) request.getAttribute("pedidos");
 <script src="<%=request.getContextPath()%>/js/modal/modal.js"></script>
 <script src="<%=request.getContextPath()%>/js/modal/modal_delete.js"></script>
 <script src="<%=request.getContextPath()%>/js/modal/modal_create.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_update.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/pedidos_view.js"></script>

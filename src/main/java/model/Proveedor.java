@@ -15,16 +15,22 @@ public class Proveedor {
 	private String estado;
 	private int contar_dept;
 	private String departamentos;
+	private int departamentoId;
 
 	// Atributos CRUD
 	private int estadoInt;
-	
+
 	private static final Estados es = new Estados();
 
 	public String getClaseEstado() {
 		if (estado == null)
 			return "gris";
 		return es.getEstadoProv(estado);
+	}
+
+	public int getDepartamentoId() {
+
+		return departamentoId;
 	}
 
 	// getters
@@ -59,20 +65,20 @@ public class Proveedor {
 	public String getEstado() {
 		return estado;
 	}
-	
+
 	public int getContarDept() {
 		return contar_dept;
 	}
-	
+
 	public String getProveedores() {
 		return departamentos;
 	}
 
 	// Getter SQL
 	public int getEstadoInt() {
-	    return estadoInt;
+		return estadoInt;
 	}
-	
+
 	// setters
 	public void setId(int id) {
 		this.id = id;
@@ -105,16 +111,21 @@ public class Proveedor {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
+
 	public void setContarProv(int contar_dept) {
 		this.contar_dept = contar_dept;
 	}
-	
+
 	public void setProveedores(String departamentos) {
 		this.departamentos = departamentos;
 	}
-	
+
 	public void setEstadoInt(int estadoInt) {
-	    this.estadoInt = estadoInt;
+		this.estadoInt = estadoInt;
+	}
+
+	public void setDepartamentoId(int departamentoId) {
+
+		this.departamentoId = departamentoId;
 	}
 }

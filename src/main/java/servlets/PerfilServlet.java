@@ -51,5 +51,6 @@ public class PerfilServlet extends HttpServlet {
 
 		request.setAttribute("contenido", "/jsp/pages/perfil.jsp");
 		request.getRequestDispatcher("/jsp/components/layout.jsp").forward(request, response);
+		
 	}
 }

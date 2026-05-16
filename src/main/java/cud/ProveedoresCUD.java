@@ -47,7 +47,6 @@ public class ProveedoresCUD extends HttpServlet {
 				p.setCif(request.getParameter("cif"));
 				p.setTelefono(request.getParameter("telefono"));
 				p.setEmail(request.getParameter("email"));
-				p.setEstadoInt(Integer.parseInt(request.getParameter("estado")));
 				
 				dao.insertar(p);
 				
@@ -71,7 +70,6 @@ public class ProveedoresCUD extends HttpServlet {
 				p.setCif(request.getParameter("cif"));
 				p.setTelefono(request.getParameter("telefono"));
 				p.setEmail(request.getParameter("email"));
-				p.setEstadoInt(Integer.parseInt(request.getParameter("estado")));
 
 				dao.actualizar(p);
 				

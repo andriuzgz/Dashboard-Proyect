@@ -1,6 +1,7 @@
 package cud;
 
 import dao.FacturaDAO;
+import dao.PedidoDAO;
 import model.Factura;
 import model.Permiso;
 import utils.PermisosUtil;
@@ -10,19 +11,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @WebServlet("/cud/facturas")
 public class FacturasCUD extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-
-	private Date parseFecha(String fecha) throws Exception {
-
-		return new SimpleDateFormat("yyyy-MM-dd").parse(fecha);
-	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
@@ -45,18 +39,30 @@ public class FacturasCUD extends HttpServlet {
 				if (!PermisosUtil.tienePermiso(permisos, "facturas", "crear")) {
 					response.sendError(403);
 					return;
-					
 				}
 
 				Factura f = new Factura();
 
-				f.setNumero(request.getParameter("numero"));
-				f.setFechaFactura(parseFecha(request.getParameter("fechaFactura")));
-				f.setFechaVencimiento(parseFecha(request.getParameter("fechaVencimiento")));
-				f.setImporte(Double.parseDouble(request.getParameter("importe")));
-				f.setEstadoInt(Integer.parseInt(request.getParameter("estado")));
+				// =========================
+				// GENERAR NUMERO FACTURA
+				// =========================
+				int siguiente = dao.obtenerUltimoId() + 1;
 
-				dao.insertar(f);
+				String numero = "FAC-2026-" + String.format("%03d", siguiente);
+				f.setNumero(numero);
+
+				// =========================
+				// SOLO IMPORTE
+				// =========================
+				f.setImporte(Double.parseDouble(request.getParameter("importe")));
+				f.setNumero(numero);
+
+				int idPedido = Integer.parseInt(request.getParameter("pedido"));
+				int idFactura = dao.insertar(f);
+
+				PedidoDAO pdao = new PedidoDAO();
+
+				pdao.asignarFactura(idPedido, idFactura);
 			}
 
 			// =========================
@@ -67,17 +73,13 @@ public class FacturasCUD extends HttpServlet {
 				if (!PermisosUtil.tienePermiso(permisos, "facturas", "editar")) {
 					response.sendError(403);
 					return;
-					
+
 				}
 
 				Factura f = new Factura();
 
 				f.setId(Integer.parseInt(request.getParameter("id")));
-				f.setNumero(request.getParameter("numero"));
-				f.setFechaFactura(parseFecha(request.getParameter("fechaFactura")));
-				f.setFechaVencimiento(parseFecha(request.getParameter("fechaVencimiento")));
 				f.setImporte(Double.parseDouble(request.getParameter("importe")));
-				f.setEstadoInt(Integer.parseInt(request.getParameter("estado")));
 
 				dao.actualizar(f);
 			}
@@ -90,7 +92,7 @@ public class FacturasCUD extends HttpServlet {
 				if (!PermisosUtil.tienePermiso(permisos, "facturas", "eliminar")) {
 					response.sendError(403);
 					return;
-					
+
 				}
 
 				int id = Integer.parseInt(request.getParameter("id"));

@@ -12,23 +12,43 @@ public class FacturaDAO {
 		List<Factura> lista = new ArrayList<>();
 
 		String sql = """
-				    SELECT
-				        f.id_factura,
-				        f.numero_factura,
-				        f.fecha_factura,
-				        f.fecha_vencimiento,
-				        f.importe_factura,
-				        ef.nombre AS estado_nombre,
+				SELECT
+				    f.id_factura,
+				    f.numero_factura,
+				    f.fecha_factura,
+				    f.fecha_vencimiento,
+				    f.importe_factura,
+				    ef.nombre AS estado_nombre,
 
-				        COUNT(oc.id_orden) AS total_pedidos,
-				        GROUP_CONCAT(CONCAT(oc.numero, '/', oc.anio) SEPARATOR ', ') AS pedidos
+				    COUNT(oc.id_orden) AS total_pedidos,
 
-				    FROM facturas f
-				    JOIN estado_factura ef ON f.estado = ef.id_estado
-				    LEFT JOIN orden_compra oc ON f.id_factura = oc.factura
+				    GROUP_CONCAT(
+				        CONCAT(
+				            oc.numero,
+				            '/',
+				            oc.anio
+				        )
+				        SEPARATOR ', '
+				    ) AS pedidos,
 
-				    GROUP BY f.id_factura
-				""";
+				    GREATEST(
+				        DATEDIFF(
+				            f.fecha_vencimiento,
+				            CURDATE()
+				        ),
+				        0
+				    ) AS restante
+
+				FROM facturas f
+
+				JOIN estado_factura ef
+				    ON f.estado = ef.id_estado
+
+				LEFT JOIN orden_compra oc
+				    ON f.id_factura = oc.factura
+
+				GROUP BY f.id_factura
+								""";
 
 		try (Connection con = Conexion.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);
@@ -45,6 +65,7 @@ public class FacturaDAO {
 				f.setEstado(rs.getString("estado_nombre"));
 				f.setTotalPedidos(rs.getInt("total_pedidos"));
 				f.setPedidos(rs.getString("pedidos"));
+				f.setRestante(rs.getInt("restante"));
 
 				lista.add(f);
 			}
@@ -118,59 +139,96 @@ public class FacturaDAO {
 		return lista;
 	}
 
-	public void insertar(Factura f) {
+	public int obtenerUltimoId() {
 
 		String sql = """
-				    INSERT INTO facturas
-				    (
-				        numero_factura,
-				        fecha_factura,
-				        fecha_vencimiento,
-				        importe_factura,
-				        estado
-				    )
-
-				    VALUES (?, ?, ?, ?, ?)
+					SELECT MAX(id_factura)
+					FROM facturas
 				""";
 
-		try (Connection con = Conexion.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+		try (Connection con = Conexion.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
 
-			ps.setString(1, f.getNumero());
-			ps.setDate(2, new java.sql.Date(f.getFechaFactura().getTime()));
-			ps.setDate(3, new java.sql.Date(f.getFechaVencimiento().getTime()));
-			ps.setDouble(4, f.getImporte());
-			ps.setInt(5, f.getEstadoInt());
+			if (rs.next()) {
 
-			ps.executeUpdate();
+				return rs.getInt(1);
+
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return 0;
+	}
+
+	public int insertar(Factura f) {
+
+		String sql = """
+					INSERT INTO facturas
+					(
+						numero_factura,
+						fecha_factura,
+						fecha_vencimiento,
+						importe_factura,
+						estado
+					)
+
+					VALUES
+					(
+						?,
+						CURDATE(),
+						DATE_ADD(CURDATE(), INTERVAL 30 DAY),
+						?,
+						2
+					)
+				""";
+
+		try (
+
+				Connection con = Conexion.getConnection();
+
+				PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+
+		) {
+
+			ps.setString(1, f.getNumero());
+			ps.setDouble(2, f.getImporte());
+
+			ps.executeUpdate();
+
+			ResultSet rs = ps.getGeneratedKeys();
+
+			if (rs.next()) {
+
+				return rs.getInt(1);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+		return 0;
 	}
 
 	public void actualizar(Factura f) {
 
 		String sql = """
-				    UPDATE facturas
+					UPDATE facturas
 
-				    SET
-				        numero_factura = ?,
-				        fecha_factura = ?,
-				        fecha_vencimiento = ?,
-				        importe_factura = ?,
-				        estado = ?
+					SET
+						importe_factura = ?
 
-				    WHERE id_factura = ?
+					WHERE id_factura = ?
 				""";
 
 		try (Connection con = Conexion.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-			ps.setString(1, f.getNumero());
-			ps.setDate(2, new java.sql.Date(f.getFechaFactura().getTime()));
-			ps.setDate(3, new java.sql.Date(f.getFechaVencimiento().getTime()));
-			ps.setDouble(4, f.getImporte());
-			ps.setInt(5, f.getEstadoInt());
-			ps.setInt(6, f.getId());
+			ps.setDouble(1, f.getImporte());
+			ps.setInt(2, f.getId());
 
 			ps.executeUpdate();
 

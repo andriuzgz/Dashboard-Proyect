@@ -138,26 +138,84 @@ public class PedidoDAO {
 		return lista;
 	}
 
+	public List<Pedido> obtenerSinFactura() {
+
+		List<Pedido> lista = new ArrayList<>();
+
+		String sql = """
+					SELECT
+						id_orden,
+						numero,
+						anio
+					FROM orden_compra
+					WHERE factura IS NULL
+				""";
+
+		try (Connection con = Conexion.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+
+				Pedido p = new Pedido();
+
+				p.setId(rs.getInt("id_orden"));
+				p.setNumero(rs.getInt("numero"));
+				p.setAnio(rs.getInt("anio"));
+
+				lista.add(p);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return lista;
+	}
+
+	public void asignarFactura(int idPedido, int idFactura) {
+
+		String sql = """
+					UPDATE orden_compra
+
+					SET factura = ?
+
+					WHERE id_orden = ?
+				""";
+
+		try (
+
+				Connection con = Conexion.getConnection();
+
+				PreparedStatement ps = con.prepareStatement(sql)
+
+		) {
+
+			ps.setInt(1, idFactura);
+			ps.setInt(2, idPedido);
+
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+	}
+
 	public void insertar(Pedido p) {
 
 		String sql = """
-				    INSERT INTO orden_compra
-				    (
-				        usuario,
-				        departamento,
-				        proveedor,
-				        estado,
-				        factura,
+					INSERT INTO orden_compra
+					(
+						usuario,
+						departamento,
+						proveedor,
+						estado,
+						cantidad
+					)
 
-				        numero,
-				        anio,
-				        fecha,
-
-				        inversion,
-				        cantidad
-				    )
-
-				    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+					VALUES (?, ?, ?, 2, ?)
 				""";
 
 		try (Connection con = Conexion.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -165,15 +223,7 @@ public class PedidoDAO {
 			ps.setInt(1, p.getUsuarioId());
 			ps.setInt(2, p.getDepartamentoId());
 			ps.setInt(3, p.getProveedorId());
-			ps.setInt(4, p.getEstadoInt());
-			ps.setInt(5, p.getFacturaId());
-			ps.setInt(6, p.getNumero());
-			ps.setInt(7, p.getAnio());
-
-			ps.setDate(8, new java.sql.Date(p.getFecha().getTime()));
-
-			ps.setDouble(9, p.getInversion());
-			ps.setInt(10, p.getCantidad());
+			ps.setInt(4, p.getCantidad());
 
 			ps.executeUpdate();
 
@@ -185,40 +235,20 @@ public class PedidoDAO {
 	public void actualizar(Pedido p) {
 
 		String sql = """
-				    UPDATE orden_compra
+					UPDATE orden_compra
 
-				    SET
-				        usuario = ?,
-				        departamento = ?,
-				        proveedor = ?,
-				        estado = ?,
-				        factura = ?,
+					SET
+						proveedor = ?,
+						cantidad = ?
 
-				        numero = ?,
-				        anio = ?,
-				        fecha = ?,
-
-				        inversion = ?,
-				        cantidad = ?
-
-				    WHERE id_orden = ?
+					WHERE id_orden = ?
 				""";
 
 		try (Connection con = Conexion.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-			ps.setInt(1, p.getUsuarioId());
-			ps.setInt(2, p.getDepartamentoId());
-			ps.setInt(3, p.getProveedorId());
-			ps.setInt(4, p.getEstadoInt());
-			ps.setInt(5, p.getFacturaId());
-			ps.setInt(6, p.getNumero());
-			ps.setInt(7, p.getAnio());
-
-			ps.setDate(8, new java.sql.Date(p.getFecha().getTime()));
-
-			ps.setDouble(9, p.getInversion());
-			ps.setInt(10, p.getCantidad());
-			ps.setInt(11, p.getId());
+			ps.setInt(1, p.getProveedorId());
+			ps.setInt(2, p.getCantidad());
+			ps.setInt(3, p.getId());
 
 			ps.executeUpdate();
 

@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="model.Factura"%>
-<%@ page import="java.util.List" %>
-<%@ page import="model.Permiso" %>
-<%@ page import="utils.PermisosUtil" %>
+<%@ page import="java.util.List"%>
+<%@ page import="model.Permiso"%>
+<%@ page import="utils.PermisosUtil"%>
 
 <%
 @SuppressWarnings("unchecked")
@@ -16,9 +16,20 @@ List<Factura> facturas = (List<Factura>) request.getAttribute("facturas");
 %>
 
 <!-- Include Form -->
-<div id="usuarios-form-template" style="display:none;">
-    <jsp:include page="/jsp/forms/facturas_form.jsp"/>
+<div id="facturas-form-template" style="display: none;">
+	<jsp:include page="/jsp/forms/facturas_form.jsp" />
 </div>
+
+<!-- Include View -->
+<div id="facturas-view-template" style="display: none;">
+	<jsp:include page="/jsp/views/facturas_view.jsp" />
+</div>
+
+<!-- Include Update Form -->
+<div id="facturas-update-template" style="display: none;">
+	<jsp:include page="/jsp/forms/facturas_form.jsp" />
+</div>
+
 
 <!-- Include Modal -->
 <jsp:include page="/jsp/components/modal.jsp" />
@@ -31,7 +42,9 @@ List<Factura> facturas = (List<Factura>) request.getAttribute("facturas");
 	</div>
 	<p class="text">Lista de facturas en el sistema</p>
 	<div class="grid-content-departamento">
-	<% if (PermisosUtil.tienePermiso(permisos, "facturas", "crear")) { %>
+		<%
+		if (PermisosUtil.tienePermiso(permisos, "facturas", "crear")) {
+		%>
 		<div class="content">
 			<div class="content-item">
 				<a class="content-text">Crear Factura</a>
@@ -45,7 +58,8 @@ List<Factura> facturas = (List<Factura>) request.getAttribute("facturas");
 					<tr class="tr-table">
 						<td class="td-table">Crear una nueva factura</td>
 						<td class="td-table">
-							<button title="Crear Usuario" class="button-action add" onclick="modalCrear()">📄</button>
+							<button title="Crear Usuario" class="button-action add"
+								onclick="modalCrearFactura()">📄</button>
 						</td>
 						<td class="td-table">Filtra las facturas para buscar</td>
 						<td class="td-table"><input class="user-search" type=search></td>
@@ -53,7 +67,9 @@ List<Factura> facturas = (List<Factura>) request.getAttribute("facturas");
 				</table>
 			</div>
 		</div>
-		<% } else { %>
+		<%
+		} else {
+		%>
 		<div class="content">
 			<div class="content-item">
 				<a class="content-text">Buscar Facturas</a>
@@ -70,7 +86,9 @@ List<Factura> facturas = (List<Factura>) request.getAttribute("facturas");
 				</table>
 			</div>
 		</div>
-		<% } %>
+		<%
+		}
+		%>
 		<div class="content">
 			<div class="content-item">
 				<a class="content-text">Lista de facturas</a>
@@ -100,14 +118,30 @@ List<Factura> facturas = (List<Factura>) request.getAttribute("facturas");
 						<td class="td-table"><%=f.getImporte()%> €</td>
 						<td class="td-table <%=f.getClaseEstado()%>"><%=f.getEstado()%></td>
 						<td class="td-table">
-						<% if (PermisosUtil.tienePermiso(permisos, "facturas", "editar")) { %>
-						    <button class="button-action" onclick="abrirModal()">✏️</button>
-						<% } %>
-							<button class="button-action" onclick="abrirModal()">🔍</button>
-						<% if (PermisosUtil.tienePermiso(permisos, "facturas", "eliminar")) { %>
-							<button class="button-action delete" 
-							onclick="modalEliminar('<%=f.getId()%>','<%=f.getNumero()%>')">🗑️</button> 
-						<% } %>
+							<%
+							if (PermisosUtil.tienePermiso(permisos, "facturas", "editar")) {
+							%>
+							<button class="button-action" onclick="modalEditarFactura(this)"
+								data-id="<%=f.getId()%>" data-importe="<%=f.getImporte()%>">
+
+								✏️</button> <%
+ }
+ %>
+							<button class="button-action" onclick="modalVerFactura(this)"
+								data-id="<%=f.getId()%>" data-numero="<%=f.getNumero()%>"
+								data-fecha="<%=f.getFechaFactura()%>"
+								data-vencimiento="<%=f.getFechaVencimiento()%>"
+								data-pedidos="<%=f.getPedidos()%>"
+								data-importe="<%=f.getImporte()%>"
+								data-estado="<%=f.getEstado()%>"
+								data-restante="<%=f.getRestante()%>">🔍</button> <%
+ if (PermisosUtil.tienePermiso(permisos, "facturas", "eliminar")) {
+ %>
+							<button class="button-action delete"
+								onclick="modalEliminar('<%=f.getId()%>','<%=f.getNumero()%>')">🗑️</button>
+							<%
+							}
+							%>
 						</td>
 					</tr>
 					<%
@@ -129,3 +163,5 @@ List<Factura> facturas = (List<Factura>) request.getAttribute("facturas");
 <script src="<%=request.getContextPath()%>/js/modal/modal.js"></script>
 <script src="<%=request.getContextPath()%>/js/modal/modal_delete.js"></script>
 <script src="<%=request.getContextPath()%>/js/modal/modal_create.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_update.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_view.js"></script>

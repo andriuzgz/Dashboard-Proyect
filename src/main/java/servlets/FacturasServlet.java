@@ -6,6 +6,8 @@ import model.Permiso;
 import utils.PermisosUtil;
 import dao.DepartamentoDAO;
 import model.Departamento;
+import dao.PedidoDAO;
+import model.Pedido;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
@@ -29,7 +31,7 @@ public class FacturasServlet extends HttpServlet {
 		if (id == null) {
 
 			response.sendRedirect(request.getContextPath() + "/auth/login.jsp");
-			
+
 			return;
 		}
 
@@ -51,6 +53,12 @@ public class FacturasServlet extends HttpServlet {
 		if (rol == 1 || rol == 2) {
 
 			List<Factura> facturas = fdao.obtenerTodas();
+
+			PedidoDAO pdao = new PedidoDAO();
+
+			List<Pedido> pedidos = pdao.obtenerSinFactura();
+
+			request.setAttribute("pedidosSinFactura", pedidos);
 
 			request.setAttribute("facturas", facturas);
 			request.setAttribute("contenido", "/jsp/pages/facturas_uno.jsp");
