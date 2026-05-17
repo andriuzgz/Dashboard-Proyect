@@ -294,3 +294,54 @@ function modalEditarFactura(btn) {
     ).innerHTML =
         "Guardar Cambios";
 }
+
+function modalEditarPresupuesto(btn) {
+
+    const contenido =
+        document.getElementById(
+            "presupuestos-update-template"
+        ).innerHTML;
+
+    cargarModal(contenido);
+
+    const modal =
+        document.getElementById(
+            "modal-body"
+        );
+
+    modal.querySelector(
+        "#form-action"
+    ).value = "editar";
+
+    modal.querySelector(
+        "#edit-id"
+    ).value =
+        btn.dataset.id;
+
+    modal.querySelector(
+        "#edit-importe"
+    ).value =
+        btn.dataset.importe;
+
+    modal.querySelector(
+        "#grupo-departamento"
+    ).remove();
+
+    modal.querySelector(
+        "#grupo-anio"
+    ).remove();
+
+    modal.querySelector(
+        "#grupo-estado"
+    ).remove();
+
+    modal.querySelector(
+        "#modal-title"
+    ).innerHTML =
+        "Operacion Editar [U]";
+
+    modal.querySelector(
+        "#submit-button"
+    ).innerHTML =
+        "Guardar Cambios";
+}

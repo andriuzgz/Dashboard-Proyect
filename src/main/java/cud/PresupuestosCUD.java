@@ -38,7 +38,7 @@ public class PresupuestosCUD extends HttpServlet {
 				if (!PermisosUtil.tienePermiso(permisos, "presupuestos", "crear")) {
 					response.sendError(403);
 					return;
-					
+
 				}
 
 				Presupuesto p = new Presupuesto();
@@ -59,16 +59,14 @@ public class PresupuestosCUD extends HttpServlet {
 				if (!PermisosUtil.tienePermiso(permisos, "presupuestos", "editar")) {
 					response.sendError(403);
 					return;
-					
+
 				}
 
 				Presupuesto p = new Presupuesto();
 
 				p.setId(Integer.parseInt(request.getParameter("id")));
-				p.setDepartamentoId(Integer.parseInt(request.getParameter("departamento")));
-				p.setAnio(Integer.parseInt(request.getParameter("anio")));
+
 				p.setImporte(Double.parseDouble(request.getParameter("importe")));
-				p.setEstadoInt(Integer.parseInt(request.getParameter("estado")));
 
 				dao.actualizar(p);
 			}
@@ -81,7 +79,7 @@ public class PresupuestosCUD extends HttpServlet {
 				if (!PermisosUtil.tienePermiso(permisos, "presupuestos", "eliminar")) {
 					response.sendError(403);
 					return;
-					
+
 				}
 
 				int id = Integer.parseInt(request.getParameter("id"));

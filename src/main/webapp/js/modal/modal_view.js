@@ -293,7 +293,55 @@ function modalVerFactura(btn) {
         btn.dataset.restante + " dias";
 }
 
+function modalVerPresupuesto(btn) {
 
+    const contenido =
+        document.getElementById(
+            "presupuestos-view-template"
+        ).innerHTML;
+
+    cargarModal(contenido);
+
+    const modal =
+        document.getElementById(
+            "modal-body"
+        );
+
+    modal.querySelector(
+        "#view-id"
+    ).innerHTML =
+        btn.dataset.id;
+
+    modal.querySelector(
+        "#view-departamento"
+    ).innerHTML =
+        btn.dataset.departamento;
+
+    modal.querySelector(
+        "#view-anio"
+    ).innerHTML =
+        btn.dataset.anio;
+
+    modal.querySelector(
+        "#view-importe"
+    ).innerHTML =
+        btn.dataset.importe;
+
+    modal.querySelector(
+        "#view-gastado"
+    ).innerHTML =
+        btn.dataset.gastado;
+
+    modal.querySelector(
+        "#view-restante"
+    ).innerHTML =
+        btn.dataset.restante;
+
+    modal.querySelector(
+        "#view-estado"
+    ).innerHTML =
+        btn.dataset.estado;
+}
 
 function modalVerHistorico(btn) {
 

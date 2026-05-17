@@ -187,3 +187,32 @@ function modalCrearFactura() {
     ).innerHTML =
         "Añadir";
 }
+
+function modalCrearPresupuesto() {
+
+    const contenido =
+        document.getElementById(
+            "presupuestos-form-template"
+        ).innerHTML;
+
+    cargarModal(contenido);
+
+    const modal =
+        document.getElementById(
+            "modal-body"
+        );
+
+    modal.querySelector(
+        "#form-action"
+    ).value = "crear";
+
+    modal.querySelector(
+        "#modal-title"
+    ).innerHTML =
+        "Operacion Creacion [C]";
+
+    modal.querySelector(
+        "#submit-button"
+    ).innerHTML =
+        "Asignar";
+}

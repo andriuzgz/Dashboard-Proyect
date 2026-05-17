@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="model.Presupuesto" %>
-<%@ page import="java.util.List" %>
-<%@ page import="model.Permiso" %>
-<%@ page import="utils.PermisosUtil" %>
+<%@ page import="model.Presupuesto"%>
+<%@ page import="java.util.List"%>
+<%@ page import="model.Permiso"%>
+<%@ page import="utils.PermisosUtil"%>
 
 <%
 @SuppressWarnings("unchecked")
@@ -16,8 +16,18 @@ List<Presupuesto> presupuestos = (List<Presupuesto>) request.getAttribute("presu
 %>
 
 <!-- Include Form -->
-<div id="usuarios-form-template" style="display:none;">
-    <jsp:include page="/jsp/forms/presupuestos_form.jsp"/>
+<div id="presupuestos-form-template" style="display: none;">
+	<jsp:include page="/jsp/forms/presupuestos_form.jsp" />
+</div>
+
+<!-- Include Update -->
+<div id="presupuestos-update-template" style="display: none;">
+	<jsp:include page="/jsp/forms/presupuestos_form.jsp" />
+</div>
+
+<!-- Include View -->
+<div id="presupuestos-view-template" style="display: none;">
+	<jsp:include page="/jsp/views/presupuestos_view.jsp" />
 </div>
 
 <!-- Include Modal -->
@@ -31,7 +41,9 @@ List<Presupuesto> presupuestos = (List<Presupuesto>) request.getAttribute("presu
 	</div>
 	<p class="text">Lista de presupuestos en el sistema</p>
 	<div class="grid-content-departamento">
-	<% if (PermisosUtil.tienePermiso(permisos, "presupuestos", "crear")) { %>
+		<%
+		if (PermisosUtil.tienePermiso(permisos, "presupuestos", "crear")) {
+		%>
 		<div class="content">
 			<div class="content-item">
 				<a class="content-text">Crear Presupuesto</a>
@@ -46,7 +58,8 @@ List<Presupuesto> presupuestos = (List<Presupuesto>) request.getAttribute("presu
 						<td class="td-table">Crea un nuevo presupuesto para el
 							departamento</td>
 						<td class="td-table">
-							<button title="Crear Usuario" class="button-action add" onclick="modalCrear()">📄</button>
+							<button title="Crear Usuario" class="button-action add"
+								onclick="modalCrearPresupuesto()">📄</button>
 						</td>
 						<td class="td-table">Filtra los prespuestos para buscar</td>
 						<td class="td-table"><input class="user-search" type=search></td>
@@ -54,7 +67,9 @@ List<Presupuesto> presupuestos = (List<Presupuesto>) request.getAttribute("presu
 				</table>
 			</div>
 		</div>
-		<% } else { %>
+		<%
+		} else {
+		%>
 		<div class="content">
 			<div class="content-item">
 				<a class="content-text">Buscar Presupuestos</a>
@@ -71,7 +86,9 @@ List<Presupuesto> presupuestos = (List<Presupuesto>) request.getAttribute("presu
 				</table>
 			</div>
 		</div>
-		<% } %>
+		<%
+		}
+		%>
 		<div class="content">
 			<div class="content-item">
 				<a class="content-text">Lista de presupuestos</a>
@@ -96,19 +113,33 @@ List<Presupuesto> presupuestos = (List<Presupuesto>) request.getAttribute("presu
 						<td class="td-table"><%=p.getId()%></td>
 						<td class="td-table"><%=p.getDepartamento()%></td>
 						<td class="td-table"><%=p.getAnio()%></td>
-						<td class="td-table"><%= p.getImporte() %> €</td>
-						<td class="td-table"><%= p.getGastado() %> €</td>
-						<td class="td-table"><%= p.getRestante() %> €</td>
-						<td class="td-table <%=p.getClaseEstado()%>"><%= p.getEstadoDinamico() %></td>
+						<td class="td-table"><%=p.getImporte()%> €</td>
+						<td class="td-table"><%=p.getGastado()%> €</td>
+						<td class="td-table"><%=p.getRestante()%> €</td>
+						<td class="td-table <%=p.getClaseEstado()%>"><%=p.getEstadoDinamico()%></td>
 						<td class="td-table">
-						<% if (PermisosUtil.tienePermiso(permisos, "presupuestos", "editar")) { %>
-						    <button class="button-action" onclick="abrirModal()">✏️</button>
-						<% } %>
-							<button class="button-action" onclick="abrirModal()">🔍</button>
-						<% if (PermisosUtil.tienePermiso(permisos, "presupuestos", "eliminar")) { %>
-							<button class="button-action delete" 
-							onclick="modalEliminar('<%=p.getId()%>','<%=p.getDepartamento()%>')">🗑️</button> 
-						<% } %>
+							<%
+							if (PermisosUtil.tienePermiso(permisos, "presupuestos", "editar")) {
+							%>
+							<button class="button-action"
+								onclick="modalEditarPresupuesto(this)" data-id="<%=p.getId()%>"
+								data-importe="<%=p.getImporte()%>">✏️</button> <%
+ }
+ %>
+							<button class="button-action" onclick="modalVerPresupuesto(this)"
+								data-id="<%=p.getId()%>"
+								data-departamento="<%=p.getDepartamento()%>"
+								data-anio="<%=p.getAnio()%>" data-importe="<%=p.getImporte()%>"
+								data-gastado="<%=p.getGastado()%>"
+								data-restante="<%=p.getRestante()%>"
+								data-estado="<%=p.getEstadoDinamico()%>">🔍</button> <%
+ if (PermisosUtil.tienePermiso(permisos, "presupuestos", "eliminar")) {
+ %>
+							<button class="button-action delete"
+								onclick="modalEliminar('<%=p.getId()%>','<%=p.getDepartamento()%>')">🗑️</button>
+							<%
+							}
+							%>
 						</td>
 					</tr>
 					<%
@@ -130,3 +161,5 @@ List<Presupuesto> presupuestos = (List<Presupuesto>) request.getAttribute("presu
 <script src="<%=request.getContextPath()%>/js/modal/modal.js"></script>
 <script src="<%=request.getContextPath()%>/js/modal/modal_delete.js"></script>
 <script src="<%=request.getContextPath()%>/js/modal/modal_create.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_update.js"></script>
+<script src="<%=request.getContextPath()%>/js/modal/modal_view.js"></script>

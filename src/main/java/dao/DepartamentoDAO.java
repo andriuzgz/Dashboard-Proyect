@@ -113,6 +113,53 @@ public class DepartamentoDAO {
 		return d;
 	}
 
+	public List<Departamento> obtenerSinPresupuesto() {
+
+		List<Departamento> lista = new ArrayList<>();
+
+		String sql = """
+
+					SELECT
+						d.*
+
+					FROM departamento d
+
+					LEFT JOIN presupuesto p
+						ON d.id_departamento =
+							p.departamento
+
+					WHERE p.id_presupuesto IS NULL
+
+				""";
+
+		try (
+
+				Connection con = Conexion.getConnection();
+
+				PreparedStatement ps = con.prepareStatement(sql);
+
+				ResultSet rs = ps.executeQuery()
+
+		) {
+
+			while (rs.next()) {
+
+				Departamento d = new Departamento();
+
+				d.setId(rs.getInt("id_departamento"));
+
+				d.setNombre(rs.getString("nombre_departamento"));
+
+				lista.add(d);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return lista;
+	}
+
 	public void insertar(Departamento d) {
 
 		String sql = """

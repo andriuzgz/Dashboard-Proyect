@@ -89,22 +89,22 @@ public class PresupuestoDAO {
 				    UPDATE presupuesto
 
 				    SET
-				        departamento = ?,
-				        anio = ?,
-				        importe_asignado = ?,
-				        estado = ?
+				        importe_asignado = ?
 
 				    WHERE id_presupuesto = ?
 				""";
 
-		try (Connection con = Conexion.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+		try (
 
-			ps.setInt(1, p.getDepartamentoId());
-			ps.setInt(2, p.getAnio());
-			ps.setDouble(3, p.getImporte());
-			ps.setInt(4, p.getEstadoInt());
+				Connection con = Conexion.getConnection();
 
-			ps.setInt(5, p.getId());
+				PreparedStatement ps = con.prepareStatement(sql)
+
+		) {
+
+			ps.setDouble(1, p.getImporte());
+
+			ps.setInt(2, p.getId());
 
 			ps.executeUpdate();
 
